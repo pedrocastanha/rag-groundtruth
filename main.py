@@ -539,72 +539,352 @@ def retrieve_broken(
 ) -> list[str]:
     return []
 
+def validate_golden_set(
+        golden_set: list[dict],
+        minimum_examples: int = 100,
+) -> None:
+    if len(golden_set) < minimum_examples:
+        raise ValueError(
+            f"Golden set has {len(golden_set)} examples. "
+            f"Expected at least {minimum_examples}."
+        )
+
+    required_fields = {
+        "query",
+        "relevant_passage_ids",
+        "category",
+    }
+
+    for index, example in enumerate(golden_set):
+        missing_fields = required_fields - example.keys()
+
+        if missing_fields:
+            raise ValueError(
+                f"Example {index} is missing fields: "
+                f"{missing_fields}"
+            )
+
+        if not example["relevant_passage_ids"]:
+            raise ValueError(
+                f"Example {index} has no relevant passages."
+            )
+
+def generate_candidate_example(
+    chunk: dict,
+) -> dict:
+    allowed_categories = [
+        "negligence",
+        "contract",
+        "duty",
+        "damages",
+        "liability",
+    ]
+
+    prompt = f"""
+You are creating an evaluation dataset for a legal retrieval system.
+
+Passage ID:
+{chunk["id"]}
+
+Passage:
+{chunk["text"]}
+
+Create ONE realistic user question that can be answered by this passage.
+
+Requirements:
+- Paraphrase the passage instead of copying its wording.
+- The question should test semantic retrieval.
+- Do not mention the passage ID.
+- Choose exactly ONE category from this list:
+{allowed_categories}
+- Return only valid JSON in this format:
+
+{{
+    "query": "...",
+    "category": "..."
+}}
+"""
+
+    response = client.responses.create(
+        model="gpt-4.1-nano",
+        input=prompt,
+    )
+
+    generated = json.loads(response.output_text)
+
+    return {
+        "query": generated["query"],
+        "relevant_passage_ids": [chunk["id"]],
+        "category": chunk["category"],
+        "review_status": "pending",
+    }
+
+def validate_corpus_size(
+        chunks: list[dict],
+        k: int,
+        minimum_multiplier: int = 5,
+) -> None:
+    minimum_chunks = k * minimum_multiplier
+
+    if len(chunks) < minimum_chunks:
+        raise ValueError(
+            f"Corpus has only {len(chunks)} chunks. "
+            f"For Recall@{k}, use at least {minimum_chunks} chunks."
+        )
+
+def generate_corpus_passage(
+        chunk_id: str,
+        category: str,
+) -> dict:
+    prompt = f"""
+    You are creating a synthetic corpus for evaluating a legal research retrieval system.
+
+    Category: {category}
+
+    Create ONE short legal passage.
+
+    Requirements:
+    - Write 2 to 4 sentences.
+    - The passage should contain one specific legal rule, principle, exception, or scenario.
+    - Make it meaningfully different from generic textbook definitions.
+    - Do not mention that the passage is synthetic.
+    - Do not include a title.
+    - Return only the passage text.
+    """
+
+    response = client.responses.create(
+        model="gpt-4.1-nano",
+        input = prompt,
+    )
+
+    return {
+        "id": chunk_id,
+        "text": response.output_text.strip(),
+        "category": category,
+    }
+
+def generate_synthetic_corpus(
+        categories: list[str],
+        passages_per_category: int,
+        start_index: int = 100
+) -> list[dict]:
+    generated_chunks = []
+    next_index = start_index
+
+    for category in categories:
+        for _ in range(passages_per_category):
+            chunk_id = f"chunk_{next_index}"
+
+            chunk = generate_corpus_passage(
+                chunk_id = chunk_id,
+                category = category,
+            )
+
+            generated_chunks.append(chunk)
+            next_index += 1
+
+    return generated_chunks
+
+def save_jsonl(
+        data: list[dict],
+        file_path:str
+) -> None:
+    with open(file_path, "w", encoding="utf-8") as file:
+        for item in data:
+            file.write(json.dumps(item, ensure_ascii=False) + "\n")
+
+def generate_candidates_for_corpus(
+        chunks: list[dict],
+        queries_per_chunk: int = 2,
+) -> list[dict]:
+    candidates = []
+    candidate_index = 1
+
+    for chunk in chunks:
+        for _ in range(queries_per_chunk):
+            candidate = generate_candidate_example(chunk)
+
+            candidate["candidate_id"] = f"candidate_{candidate_index}"
+
+            candidates.append(candidate)
+
+            candidate_index += 1
+
+    return candidates
+
+def review_candidates(
+        candidates: list[dict],
+        chunks: list[dict],
+        target_approved: int = 100,
+) -> list[dict]:
+    chunks_by_id = {
+        chunk["id"]: chunk
+        for chunk in chunks
+    }
+
+    approved = []
+
+    for candidate in candidates:
+        if len(approved) >= target_approved:
+            break
+
+        passage_id = candidate["relevant_passage_ids"][0]
+        passage = chunks_by_id[passage_id]
+
+        print("\n" + "=" * 80)
+        print(f'Candidate: {candidate["candidate_id"]}')
+        print(f'Category: {candidate["category"]}')
+        print(f'\nQuery:\n{candidate["query"]}')
+        print(f'\nRelevant passage ({passage_id}):\n{passage["text"]}')
+
+        decision = input(
+            "\nApprove? [y/n/q]: "
+        ).strip().lower()
+
+        if decision == "y":
+            candidate["review_status"] = "approved"
+            approved.append(candidate)
+
+        elif decision == "n":
+            candidate["review_status"] = "rejected"
+
+        elif decision == "q":
+            break
+
+    return approved
+
 if __name__ == "__main__":
     golden_set = load_golden_set("golden_set.jsonl")
     chunks = load_chunks("chunks.jsonl")
 
     embedded_chunks = embed_chunks(chunks)
 
-    keyword_summary = run_experiment(
-        golden_set,
-        retrieve_keyword,
+    # keyword_summary = run_experiment(
+    #     golden_set,
+    #     retrieve_keyword,
+    #     chunks,
+    #     k=2,
+    # )
+    #
+    # dense_summary = run_experiment(
+    #     golden_set,
+    #     retrieve_dense,
+    #     embedded_chunks,
+    #     k=2,
+    # )
+    #
+    # hybrid_summary = run_experiment(
+    #     golden_set,
+    #     retrieve_hybrid,
+    #     embedded_chunks,
+    #     k=2,
+    # )
+    #
+    # print("Keyword:")
+    # print(keyword_summary)
+    #
+    # print("\nDense:")
+    # print(dense_summary)
+    #
+    # print("\nHybrid:")
+    # print(hybrid_summary)
+    #
+    # keyword_vs_dense = compare_metrics(
+    #     keyword_summary["overall"],
+    #     dense_summary["overall"],
+    # )
+    #
+    # hybrid_vs_dense = compare_metrics(
+    #     hybrid_summary["overall"],
+    #     dense_summary["overall"],
+    # )
+    #
+    # print("\nKeyword -> Dense:")
+    # print(keyword_vs_dense)
+    #
+    # print("\nHybrid -> Dense:")
+    # print(hybrid_vs_dense)
+    #
+    # reranked_summary = run_experiment(
+    #     golden_set,
+    #     retrieve_dense_reranked,
+    #     embedded_chunks,
+    #     k=2,
+    # )
+    #
+    # print("\nReranked:")
+    # print(reranked_summary)
+    #
+    # dense_vs_reranked = compare_metrics(
+    #     dense_summary["overall"],
+    #     reranked_summary["overall"],
+    # )
+    #
+    # print("\nDense -> Dense + Reranker:")
+    # print(dense_vs_reranked)
+
+    # candidate = generate_candidate_example(chunks[0])
+    #
+    # print("\nCandidate:")
+    # print(candidate)
+    #
+    # print("\nGenerate Corpus Passage:")
+    # print(generate_corpus_passage("chunk_100", "contract"))
+    #
+    # categories = [
+    #     "negligence",
+    #     "contract",
+    #     "duty",
+    #     "damages",
+    #     "liability",
+    # ]
+    #
+    # print("\nGenerate Syntetic Corpus:")
+    # generated_chunks = generate_synthetic_corpus(
+    #     categories=categories,
+    #     passages_per_category=10,
+    #     start_index=100,
+    # )
+    #
+    # print(len(generated_chunks))
+    # print(generated_chunks[0])
+    # print(generated_chunks[-1])
+    #
+    # all_chunks = chunks + generated_chunks
+    #
+    # validate_corpus_size(
+    #     all_chunks,
+    #     k=10,
+    # )
+    #
+    # save_jsonl(
+    #     all_chunks,
+    #     "chunks.jsonl",
+    # )
+
+    # all_chunks = load_chunks("chunks.jsonl")
+    #
+    # candidates = generate_candidates_for_corpus(
+    #     all_chunks,
+    #     queries_per_chunk=2,
+    # )
+    #
+    # print(len(candidates))
+    # print(candidates[0])
+    # print(candidates[-1])
+    #
+    # save_jsonl(
+    #     candidates,
+    #     "golden_candidates.jsonl",
+    # )
+
+    candidates = load_golden_set("golden_candidates.jsonl")
+    chunks = load_chunks("chunks.jsonl")
+
+    approved = review_candidates(
+        candidates[:3],
         chunks,
-        k=2,
+        target_approved=3,
     )
 
-    dense_summary = run_experiment(
-        golden_set,
-        retrieve_dense,
-        embedded_chunks,
-        k=2,
-    )
-
-    hybrid_summary = run_experiment(
-        golden_set,
-        retrieve_hybrid,
-        embedded_chunks,
-        k=2,
-    )
-
-    print("Keyword:")
-    print(keyword_summary)
-
-    print("\nDense:")
-    print(dense_summary)
-
-    print("\nHybrid:")
-    print(hybrid_summary)
-
-    keyword_vs_dense = compare_metrics(
-        keyword_summary["overall"],
-        dense_summary["overall"],
-    )
-
-    hybrid_vs_dense = compare_metrics(
-        hybrid_summary["overall"],
-        dense_summary["overall"],
-    )
-
-    print("\nKeyword -> Dense:")
-    print(keyword_vs_dense)
-
-    print("\nHybrid -> Dense:")
-    print(hybrid_vs_dense)
-
-    reranked_summary = run_experiment(
-        golden_set,
-        retrieve_dense_reranked,
-        embedded_chunks,
-        k=2,
-    )
-
-    print("\nReranked:")
-    print(reranked_summary)
-
-    dense_vs_reranked = compare_metrics(
-        dense_summary["overall"],
-        reranked_summary["overall"],
-    )
-
-    print("\nDense -> Dense + Reranker:")
-    print(dense_vs_reranked)
+    print(approved)
