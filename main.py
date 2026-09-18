@@ -1,3 +1,4 @@
+import hashlib
 import re
 import json
 import math
@@ -489,19 +490,57 @@ def aggregate_metrics_by_category(
     return category_metrics
 
 def rerank_with_gpt(
-        query: str,
-        candidate_ids: list[str],
-        chunks: list[dict],
-        k: int,
+    query: str,
+    candidate_ids: list[str],
+    chunks: list[dict],
+    k: int,
 ) -> list[str]:
-    candidates = []
+    model = "gpt-4.1-nano"
 
-    for chunk in chunks:
-        if chunk["id"] in candidate_ids:
-            candidates.append({
-                "id": chunk["id"],
-                "text": chunk["text"],
-            })
+    os.makedirs(
+        "cache/reranker",
+        exist_ok=True,
+    )
+
+    cache_data = {
+        "query": query,
+        "candidate_ids": candidate_ids,
+        "k": k,
+        "model": model,
+    }
+
+    cache_content = json.dumps(
+        cache_data,
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+
+    cache_key = hashlib.sha256(
+        cache_content.encode("utf-8")
+    ).hexdigest()
+
+    cache_path = (
+        f"cache/reranker/{cache_key}.json"
+    )
+
+    if os.path.exists(cache_path):
+        cached = load_json(cache_path)
+
+        return cached["ranked_ids"][:k]
+
+    chunks_by_id = {
+        chunk["id"]: chunk
+        for chunk in chunks
+    }
+
+    candidates = [
+        {
+            "id": candidate_id,
+            "text": chunks_by_id[candidate_id]["text"],
+        }
+        for candidate_id in candidate_ids
+        if candidate_id in chunks_by_id
+    ]
 
     prompt = f"""
 You are a retrieval reranker.
@@ -514,19 +553,49 @@ Candidate passages:
 
 Rank the candidate passage IDs from most relevant
 to least relevant for answering the query.
-
-Return ONLY a JSON array of IDs.
-
-Example:
-["chunk_10", "chunk_42"]
 """
 
     response = client.responses.create(
-        model="gpt-4.1-nano",
+        model=model,
         input=prompt,
+        text={
+            "format": {
+                "type": "json_schema",
+                "name": "reranking_result",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "ranked_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                            },
+                        },
+                    },
+                    "required": ["ranked_ids"],
+                    "additionalProperties": False,
+                },
+            }
+        },
     )
 
-    ranked_ids = json.loads(response.output_text)
+    result = json.loads(
+        response.output_text
+    )
+
+    ranked_ids = [
+        passage_id
+        for passage_id in result["ranked_ids"]
+        if passage_id in candidate_ids
+    ]
+
+    save_json(
+        {
+            "ranked_ids": ranked_ids,
+        },
+        cache_path,
+    )
 
     return ranked_ids[:k]
 
@@ -1051,8 +1120,34 @@ def remap_golden_set_by_spans(
 
     return remapped_examples
 
+def save_json(
+    data: dict,
+    file_path: str,
+) -> None:
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(
+            data,
+            file,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+
+def load_json(
+    file_path: str,
+) -> dict:
+    with open(file_path, "r", encoding="utf-8") as file:
+        return json.load(file)
+
 if __name__ == "__main__":
-    golden_set = load_golden_set("golden_set.jsonl")
+    K = 10
+
+    os.makedirs("cache", exist_ok=True)
+    os.makedirs("results", exist_ok=True)
+
+    golden_set = load_golden_set(
+        "golden_set.jsonl"
+    )
 
     with open(
         "docs/cast_ai_engineering.md",
@@ -1060,6 +1155,10 @@ if __name__ == "__main__":
         encoding="utf-8",
     ) as file:
         document = file.read()
+
+    # ---------------------------------
+    # Build corpora
+    # ---------------------------------
 
     corpus_100 = chunk_document(
         document,
@@ -1075,55 +1174,9 @@ if __name__ == "__main__":
         prefix="chunk200",
     )
 
-    print("Corpus 100:")
-    print(len(corpus_100))
-    print(corpus_100[0])
-    print(corpus_100[1])
-
-    print("\nCorpus 200:")
-    print(len(corpus_200))
-    print(corpus_200[0])
-    print(corpus_200[1])
-
-    reference_text = golden_set[0]["reference_texts"][0]
-
-    start, end = find_reference_span(
-        document,
-        reference_text,
-    )
-
-    print("\nReference:")
-    print(reference_text)
-
-    print("\nReference position:")
-    print("Start:", start)
-    print("End:", end)
-    print("Length:", end - start)
-
-    print("\nFound text:")
-    print(
-        " ".join(
-            document.split()[start:end]
-        )
-    )
-
-    relevant_100 = find_covering_chunks(
-        corpus_100,
-        start,
-        end,
-    )
-
-    relevant_200 = find_covering_chunks(
-        corpus_200,
-        start,
-        end,
-    )
-
-    print("\nRelevant chunks - 100:")
-    print(relevant_100)
-
-    print("\nRelevant chunks - 200:")
-    print(relevant_200)
+    # ---------------------------------
+    # Remap ground truth
+    # ---------------------------------
 
     golden_100 = remap_golden_set_by_spans(
         golden_set,
@@ -1137,46 +1190,210 @@ if __name__ == "__main__":
         corpus_200,
     )
 
-    print("\nGolden 100:")
-    print(len(golden_100))
-    print(golden_100[0]["relevant_passage_ids"])
+    # ---------------------------------
+    # Embeddings - chunk size 100
+    # ---------------------------------
 
-    print("\nGolden 200:")
-    print(len(golden_200))
-    print(golden_200[0]["relevant_passage_ids"])
-
-    print("\nEmbedding corpus 100...")
-    embedded_100 = embed_chunks(corpus_100)
-
-    print("Embedding corpus 200...")
-    embedded_200 = embed_chunks(corpus_200)
-
-    print("\nRunning Dense Retrieval - chunk size 100...")
-    dense_100 = run_experiment(
-        golden_100,
-        retrieve_dense,
-        embedded_100,
-        k=10,
+    embeddings_100_path = (
+        "cache/embeddings_chunk100.json"
     )
 
-    print("\nRunning Dense Retrieval - chunk size 200...")
-    dense_200 = run_experiment(
-        golden_200,
-        retrieve_dense,
-        embedded_200,
-        k=10,
+    if os.path.exists(embeddings_100_path):
+        print("Loading cached embeddings - chunk 100...")
+
+        embedded_100 = load_json(
+            embeddings_100_path
+        )
+    else:
+        print("Creating embeddings - chunk 100...")
+
+        embedded_100 = embed_chunks(
+            corpus_100
+        )
+
+        save_json(
+            embedded_100,
+            embeddings_100_path,
+        )
+
+    # ---------------------------------
+    # Embeddings - chunk size 200
+    # ---------------------------------
+
+    embeddings_200_path = (
+        "cache/embeddings_chunk200.json"
     )
 
-    print("\nDense - Chunk size 100:")
-    print(dense_100)
+    if os.path.exists(embeddings_200_path):
+        print("Loading cached embeddings - chunk 200...")
 
-    print("\nDense - Chunk size 200:")
-    print(dense_200)
+        embedded_200 = load_json(
+            embeddings_200_path
+        )
+    else:
+        print("Creating embeddings - chunk 200...")
 
-    comparison = compare_metrics(
-        dense_100["overall"],
-        dense_200["overall"],
+        embedded_200 = embed_chunks(
+            corpus_200
+        )
+
+        save_json(
+            embedded_200,
+            embeddings_200_path,
+        )
+
+    # ---------------------------------
+    # Dense - chunk 100
+    # ---------------------------------
+
+    dense_100_path = (
+        f"results/dense_chunk100_k{K}.json"
     )
+
+    if os.path.exists(dense_100_path):
+        print("Loading Dense chunk 100...")
+
+        dense_100 = load_json(
+            dense_100_path
+        )
+    else:
+        print("Running Dense chunk 100...")
+
+        dense_100 = run_experiment(
+            golden_100,
+            retrieve_dense,
+            embedded_100,
+            k=K,
+        )
+
+        save_json(
+            dense_100,
+            dense_100_path,
+        )
+
+    # ---------------------------------
+    # Dense - chunk 200
+    # ---------------------------------
+
+    dense_200_path = (
+        f"results/dense_chunk200_k{K}.json"
+    )
+
+    if os.path.exists(dense_200_path):
+        print("Loading Dense chunk 200...")
+
+        dense_200 = load_json(
+            dense_200_path
+        )
+    else:
+        print("Running Dense chunk 200...")
+
+        dense_200 = run_experiment(
+            golden_200,
+            retrieve_dense,
+            embedded_200,
+            k=K,
+        )
+
+        save_json(
+            dense_200,
+            dense_200_path,
+        )
+
+    # ---------------------------------
+    # Hybrid - chunk 200
+    # ---------------------------------
+
+    hybrid_200_path = (
+        f"results/hybrid_chunk200_k{K}.json"
+    )
+
+    if os.path.exists(hybrid_200_path):
+        print("Loading Hybrid chunk 200...")
+
+        hybrid_200 = load_json(
+            hybrid_200_path
+        )
+    else:
+        print("Running Hybrid chunk 200...")
+
+        hybrid_200 = run_experiment(
+            golden_200,
+            retrieve_hybrid,
+            embedded_200,
+            k=K,
+        )
+
+        save_json(
+            hybrid_200,
+            hybrid_200_path,
+        )
+
+    # ---------------------------------
+    # Dense + Reranker - chunk 200
+    # ---------------------------------
+
+    reranked_200_path = (
+        f"results/reranked_chunk200_k{K}.json"
+    )
+
+    if os.path.exists(reranked_200_path):
+        print("Loading Dense + Reranker...")
+
+        reranked_200 = load_json(
+            reranked_200_path
+        )
+    else:
+        print("Running Dense + Reranker...")
+
+        reranked_200 = run_experiment(
+            golden_200,
+            retrieve_dense_reranked,
+            embedded_200,
+            k=K,
+        )
+
+        save_json(
+            reranked_200,
+            reranked_200_path,
+        )
+
+    # ---------------------------------
+    # Results
+    # ---------------------------------
+
+    print("\nDense - chunk 100:")
+    print(dense_100["overall"])
+
+    print("\nDense - chunk 200:")
+    print(dense_200["overall"])
+
+    print("\nHybrid - chunk 200:")
+    print(hybrid_200["overall"])
+
+    print("\nDense + Reranker - chunk 200:")
+    print(reranked_200["overall"])
 
     print("\nChunk 100 -> Chunk 200:")
-    print(comparison)
+    print(
+        compare_metrics(
+            dense_100["overall"],
+            dense_200["overall"],
+        )
+    )
+
+    print("\nDense -> Hybrid:")
+    print(
+        compare_metrics(
+            dense_200["overall"],
+            hybrid_200["overall"],
+        )
+    )
+
+    print("\nDense -> Dense + Reranker:")
+    print(
+        compare_metrics(
+            dense_200["overall"],
+            reranked_200["overall"],
+        )
+    )

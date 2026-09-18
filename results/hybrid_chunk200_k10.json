@@ -1,0 +1,69 @@
+{
+  "overall": {
+    "mean_recall_at_k": 0.99,
+    "mrr": 0.9116666666666666,
+    "mean_ndcg_at_k": 0.9208363997417134
+  },
+  "by_category": {
+    "fundamentos": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.8333333333333333,
+      "mean_ndcg_at_k": 0.8824356157188727
+    },
+    "prompting": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.9444444444444444,
+      "mean_ndcg_at_k": 0.9589921948412731
+    },
+    "embeddings": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 1.0,
+      "mean_ndcg_at_k": 1.0
+    },
+    "rag": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.9444444444444444,
+      "mean_ndcg_at_k": 0.9334439386949334
+    },
+    "chunking": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 1.0,
+      "mean_ndcg_at_k": 0.9885315413068839
+    },
+    "retrieval": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.875,
+      "mean_ndcg_at_k": 0.9051127596788988
+    },
+    "reranking": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.7619047619047619,
+      "mean_ndcg_at_k": 0.794226056669706
+    },
+    "avaliacao": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.925,
+      "mean_ndcg_at_k": 0.9297299776747556
+    },
+    "agentes": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 1.0,
+      "mean_ndcg_at_k": 1.0
+    },
+    "observabilidade": {
+      "mean_recall_at_k": 0.8888888888888888,
+      "mrr": 0.8333333333333334,
+      "mean_ndcg_at_k": 0.847881083730162
+    },
+    "producao": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.9444444444444444,
+      "mean_ndcg_at_k": 0.9119521160707921
+    },
+    "seguranca": {
+      "mean_recall_at_k": 1.0,
+      "mrr": 0.875,
+      "mean_ndcg_at_k": 0.8976975370363878
+    }
+  }
+}
