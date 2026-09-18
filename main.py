@@ -4,6 +4,7 @@ import math
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from collections import Counter
 
 load_dotenv()
 
@@ -753,138 +754,268 @@ def review_candidates(
 
     return approved
 
-if __name__ == "__main__":
-    golden_set = load_golden_set("golden_set.jsonl")
-    chunks = load_chunks("chunks.jsonl")
+def chunk_text(
+        text: str,
+        chunk_size: int,
+        overlap: int = 0,
+) -> list[str]:
+    words = text.split()
 
-    embedded_chunks = embed_chunks(chunks)
+    chunks = []
 
-    # keyword_summary = run_experiment(
-    #     golden_set,
-    #     retrieve_keyword,
-    #     chunks,
-    #     k=2,
-    # )
-    #
-    # dense_summary = run_experiment(
-    #     golden_set,
-    #     retrieve_dense,
-    #     embedded_chunks,
-    #     k=2,
-    # )
-    #
-    # hybrid_summary = run_experiment(
-    #     golden_set,
-    #     retrieve_hybrid,
-    #     embedded_chunks,
-    #     k=2,
-    # )
-    #
-    # print("Keyword:")
-    # print(keyword_summary)
-    #
-    # print("\nDense:")
-    # print(dense_summary)
-    #
-    # print("\nHybrid:")
-    # print(hybrid_summary)
-    #
-    # keyword_vs_dense = compare_metrics(
-    #     keyword_summary["overall"],
-    #     dense_summary["overall"],
-    # )
-    #
-    # hybrid_vs_dense = compare_metrics(
-    #     hybrid_summary["overall"],
-    #     dense_summary["overall"],
-    # )
-    #
-    # print("\nKeyword -> Dense:")
-    # print(keyword_vs_dense)
-    #
-    # print("\nHybrid -> Dense:")
-    # print(hybrid_vs_dense)
-    #
-    # reranked_summary = run_experiment(
-    #     golden_set,
-    #     retrieve_dense_reranked,
-    #     embedded_chunks,
-    #     k=2,
-    # )
-    #
-    # print("\nReranked:")
-    # print(reranked_summary)
-    #
-    # dense_vs_reranked = compare_metrics(
-    #     dense_summary["overall"],
-    #     reranked_summary["overall"],
-    # )
-    #
-    # print("\nDense -> Dense + Reranker:")
-    # print(dense_vs_reranked)
+    step = chunk_size - overlap
 
-    # candidate = generate_candidate_example(chunks[0])
-    #
-    # print("\nCandidate:")
-    # print(candidate)
-    #
-    # print("\nGenerate Corpus Passage:")
-    # print(generate_corpus_passage("chunk_100", "contract"))
-    #
-    # categories = [
-    #     "negligence",
-    #     "contract",
-    #     "duty",
-    #     "damages",
-    #     "liability",
-    # ]
-    #
-    # print("\nGenerate Syntetic Corpus:")
-    # generated_chunks = generate_synthetic_corpus(
-    #     categories=categories,
-    #     passages_per_category=10,
-    #     start_index=100,
-    # )
-    #
-    # print(len(generated_chunks))
-    # print(generated_chunks[0])
-    # print(generated_chunks[-1])
-    #
-    # all_chunks = chunks + generated_chunks
-    #
-    # validate_corpus_size(
-    #     all_chunks,
-    #     k=10,
-    # )
-    #
-    # save_jsonl(
-    #     all_chunks,
-    #     "chunks.jsonl",
-    # )
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than zero.")
 
-    # all_chunks = load_chunks("chunks.jsonl")
-    #
-    # candidates = generate_candidates_for_corpus(
-    #     all_chunks,
-    #     queries_per_chunk=2,
-    # )
-    #
-    # print(len(candidates))
-    # print(candidates[0])
-    # print(candidates[-1])
-    #
-    # save_jsonl(
-    #     candidates,
-    #     "golden_candidates.jsonl",
-    # )
+    if overlap < 0:
+        raise ValueError("overlap cannot be negative.")
 
-    candidates = load_golden_set("golden_candidates.jsonl")
-    chunks = load_chunks("chunks.jsonl")
+    if overlap >= chunk_size:
+        raise ValueError("overlap must be smaller than chunk_size.")
 
-    approved = review_candidates(
-        candidates[:3],
-        chunks,
-        target_approved=3,
+    for start in range(0, len(words), step):
+        end = start + chunk_size
+
+        chunk_words = words[start:end]
+
+        if not chunk_words:
+            break
+
+        chunk = " ".join(chunk_words)
+
+        chunks.append(chunk)
+
+    return chunks
+
+def attach_reference_texts(
+        golden_set: list[dict],
+        chunks: list[dict],
+) -> list[dict]:
+    chunks_by_id = {
+        chunk["id"]: chunk["text"]
+        for chunk in chunks
+    }
+
+    enriched_golden_set = []
+
+    for example in golden_set:
+        reference_texts = []
+
+        for passage_id in example["relevant_passage_ids"]:
+            if passage_id not in chunks_by_id:
+                raise ValueError(
+                    f"Relevant passage not found: {passage_id}"
+                )
+
+            reference_texts.append(
+                chunks_by_id[passage_id]
+            )
+
+        enriched_example = example.copy()
+
+        enriched_example["reference_texts"] = reference_texts
+
+        enriched_golden_set.append(enriched_example)
+
+    return enriched_golden_set
+
+def build_chunk_records(
+        chunk_texts: list[str],
+        prefix: str,
+) -> list[dict]:
+    chunks = []
+
+    for index, text in enumerate(chunk_texts, start=1):
+        chunks.append({
+            "id": f"{prefix}_{index:03d}",
+            "text": text,
+        })
+
+    return chunks
+
+def text_containment_score(
+        reference_text: str,
+        chunk_text: str,
+) -> float:
+    reference_tokens = tokenize(reference_text.lower())
+    chunk_tokens = tokenize(chunk_text.lower())
+
+    if not reference_tokens or not chunk_tokens:
+        return 0.0
+
+    reference_counts = Counter(reference_tokens)
+    chunk_counts = Counter(chunk_tokens)
+
+    common_tokens = reference_counts & chunk_counts
+
+    overlap = sum(common_tokens.values())
+
+    return overlap / min(
+        len(reference_tokens),
+        len(chunk_tokens),
     )
 
-    print(approved)
+def remap_golden_set_to_corpus(
+        golden_set: list[dict],
+        corpus: list[dict],
+        minimum_score: float = 0.5,
+) -> list[dict]:
+    remapped_examples = []
+
+    for example in golden_set:
+        relevant_ids = set()
+
+        for reference_text in example["reference_texts"]:
+            scored_chunks = []
+
+            for chunk in corpus:
+                score = text_containment_score(
+                    reference_text,
+                    chunk["text"],
+                )
+
+                if score >= minimum_score:
+                    scored_chunks.append(
+                        (score, chunk["id"])
+                    )
+
+            scored_chunks.sort(
+                reverse=True,
+            )
+
+            for _, chunk_id in scored_chunks:
+                relevant_ids.add(chunk_id)
+
+        remapped_example = example.copy()
+
+        remapped_example["relevant_passage_ids"] = sorted(
+            relevant_ids
+        )
+
+        remapped_examples.append(
+            remapped_example
+        )
+
+    return remapped_examples
+
+def chunk_document(
+        text: str,
+        chunk_size: int,
+        overlap: int,
+        prefix: str,
+) -> list[dict]:
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than zero.")
+
+    if overlap < 0:
+        raise ValueError("overlap cannot be negative.")
+
+    if overlap >= chunk_size:
+        raise ValueError("overlap must be smaller than chunk_size.")
+
+    words = text.split()
+    step = chunk_size - overlap
+
+    chunks = []
+
+    for index, start in enumerate(
+        range(0, len(words), step),
+        start = 1
+    ):
+        end = min(
+            start + chunk_size,
+            len(words),
+        )
+
+        chunk_words = words[start:end]
+
+        if not chunk_words:
+            break
+
+        chunks.append({
+            "id": f"{prefix}_{index:03d}",
+            "text": " ".join(chunk_words),
+            "start_word": start,
+            "end_word": end,
+        })
+
+    return chunks
+
+def find_reference_span(
+        document: str,
+        reference_text: str,
+) -> tuple[int, int]:
+    document_words = document.split()
+    reference_words = reference_text.split()
+
+    if not reference_words:
+        raise ValueError("reference_text must not be empty.")
+
+    max_start = len(document_words) - len(reference_words) + 1
+
+    for start in range(max_start):
+        end = start + len(reference_words)
+
+        if document_words[start:end] == reference_words:
+            return start, end
+
+    raise ValueError(
+        "Reference text was not found in the source document."
+    )
+
+if __name__ == "__main__":
+    golden_set = load_golden_set("golden_set.jsonl")
+
+    with open(
+        "docs/cast_ai_engineering.md",
+        "r",
+        encoding="utf-8",
+    ) as file:
+        document = file.read()
+
+    corpus_100 = chunk_document(
+        document,
+        chunk_size=100,
+        overlap=20,
+        prefix="chunk100",
+    )
+
+    corpus_200 = chunk_document(
+        document,
+        chunk_size=200,
+        overlap=40,
+        prefix="chunk200",
+    )
+
+    print("Corpus 100:")
+    print(len(corpus_100))
+    print(corpus_100[0])
+    print(corpus_100[1])
+
+    print("\nCorpus 200:")
+    print(len(corpus_200))
+    print(corpus_200[0])
+    print(corpus_200[1])
+
+    reference_text = golden_set[0]["reference_texts"][0]
+
+    start, end = find_reference_span(
+        document,
+        reference_text,
+    )
+
+    print("\nReference:")
+    print(reference_text)
+
+    print("\nReference position:")
+    print("Start:", start)
+    print("End:", end)
+    print("Length:", end - start)
+
+    print("\nFound text:")
+    print(
+        " ".join(
+            document.split()[start:end]
+        )
+    )
