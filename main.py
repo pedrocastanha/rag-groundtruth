@@ -98,10 +98,25 @@ def ideal_dcg_at_k(
 # Measures how good the retrieved ranking is compared with the ideal ranking
 def ndcg_at_k(
         relevant_scores: list[int],
+        total_relevant: int,
         k: int,
 ) -> float:
-    actual_dcg = dcg_at_k(relevant_scores, k)
-    ideal_dcg = ideal_dcg_at_k(relevant_scores, k)
+    actual_dcg = dcg_at_k(
+        relevant_scores,
+        k,
+    )
+
+    ideal_relevant_count = min(
+        total_relevant,
+        k,
+    )
+
+    ideal_scores = [1] * ideal_relevant_count
+
+    ideal_dcg = dcg_at_k(
+        ideal_scores,
+        k,
+    )
 
     if ideal_dcg == 0:
         return 0.0
@@ -140,7 +155,11 @@ def evaluate_query(
             relevant_passage_ids,
             retrieved_passage_ids,
         ),
-        "ndcg_at_k": ndcg_at_k(relevance_scores, k)
+        "ndcg_at_k": ndcg_at_k(
+            relevance_scores,
+            len(relevant_passage_ids),
+            k,
+        )
     }
 
 def evaluate_dataset(
@@ -964,6 +983,74 @@ def find_reference_span(
         "Reference text was not found in the source document."
     )
 
+def find_covering_chunks(
+        corpus: list[dict],
+        reference_start: int,
+        reference_end: int,
+) -> list[str]:
+    covering_chunks = []
+
+    current_position = reference_start
+
+    while current_position < reference_end:
+        candidates = [
+            chunk
+            for chunk in corpus
+            if chunk["start_word"] <= current_position < chunk["end_word"]
+        ]
+
+        if not candidates:
+            raise ValueError(
+                f"No chunk convers word position {current_position}."
+            )
+
+        best_chunk = max(
+            candidates,
+            key=lambda chunk: chunk["end_word"]
+        )
+
+        covering_chunks.append(best_chunk["id"])
+
+        current_position = best_chunk["end_word"]
+
+    return covering_chunks
+
+def remap_golden_set_by_spans(
+        golden_set: list[dict],
+        document: str,
+        corpus: list[dict],
+) -> list[dict]:
+    remapped_examples = []
+
+    for example in golden_set:
+        relevant_ids = set()
+
+        for reference_text in example["reference_texts"]:
+            start, end = find_reference_span(
+                document,
+                reference_text
+            )
+
+            covering_ids = find_covering_chunks(
+                corpus,
+                start,
+                end,
+            )
+
+            relevant_ids.update(covering_ids)
+
+        remapped_example = example.copy()
+
+        remapped_example["relevant_passage_ids"] = sorted(
+            relevant_ids
+        )
+
+        remapped_examples.append(
+            remapped_example
+        )
+
+    return remapped_examples
+
 if __name__ == "__main__":
     golden_set = load_golden_set("golden_set.jsonl")
 
@@ -1019,3 +1106,77 @@ if __name__ == "__main__":
             document.split()[start:end]
         )
     )
+
+    relevant_100 = find_covering_chunks(
+        corpus_100,
+        start,
+        end,
+    )
+
+    relevant_200 = find_covering_chunks(
+        corpus_200,
+        start,
+        end,
+    )
+
+    print("\nRelevant chunks - 100:")
+    print(relevant_100)
+
+    print("\nRelevant chunks - 200:")
+    print(relevant_200)
+
+    golden_100 = remap_golden_set_by_spans(
+        golden_set,
+        document,
+        corpus_100,
+    )
+
+    golden_200 = remap_golden_set_by_spans(
+        golden_set,
+        document,
+        corpus_200,
+    )
+
+    print("\nGolden 100:")
+    print(len(golden_100))
+    print(golden_100[0]["relevant_passage_ids"])
+
+    print("\nGolden 200:")
+    print(len(golden_200))
+    print(golden_200[0]["relevant_passage_ids"])
+
+    print("\nEmbedding corpus 100...")
+    embedded_100 = embed_chunks(corpus_100)
+
+    print("Embedding corpus 200...")
+    embedded_200 = embed_chunks(corpus_200)
+
+    print("\nRunning Dense Retrieval - chunk size 100...")
+    dense_100 = run_experiment(
+        golden_100,
+        retrieve_dense,
+        embedded_100,
+        k=10,
+    )
+
+    print("\nRunning Dense Retrieval - chunk size 200...")
+    dense_200 = run_experiment(
+        golden_200,
+        retrieve_dense,
+        embedded_200,
+        k=10,
+    )
+
+    print("\nDense - Chunk size 100:")
+    print(dense_100)
+
+    print("\nDense - Chunk size 200:")
+    print(dense_200)
+
+    comparison = compare_metrics(
+        dense_100["overall"],
+        dense_200["overall"],
+    )
+
+    print("\nChunk 100 -> Chunk 200:")
+    print(comparison)
