@@ -65,5 +65,2284 @@
       "mrr": 1.0,
       "mean_ndcg_at_k": 1.0
     }
-  }
+  },
+  "details": [
+    {
+      "query": "O que caracteriza a Engenharia de IA como disciplina?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_001",
+        "chunk100_002"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_002",
+        "chunk100_001",
+        "chunk100_004",
+        "chunk100_081",
+        "chunk100_080",
+        "chunk100_055",
+        "chunk100_021",
+        "chunk100_065",
+        "chunk100_056",
+        "chunk100_020"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Se meu sistema de IA passa nos testes de unidade normais, isso garante que ele funciona bem em produção?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_002",
+        "chunk100_003",
+        "chunk100_004"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_002",
+        "chunk100_004",
+        "chunk100_055",
+        "chunk100_001",
+        "chunk100_054",
+        "chunk100_068",
+        "chunk100_080",
+        "chunk100_003",
+        "chunk100_081",
+        "chunk100_079"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9134015924715543
+    },
+    {
+      "query": "Por que a mesma pergunta pode gerar respostas diferentes em um sistema com LLM?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_003",
+        "chunk100_004"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_003",
+        "chunk100_024",
+        "chunk100_043",
+        "chunk100_082",
+        "chunk100_053",
+        "chunk100_026",
+        "chunk100_054",
+        "chunk100_020",
+        "chunk100_067",
+        "chunk100_066"
+      ],
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584
+    },
+    {
+      "query": "Se a resposta de um assistente está errada, faz sentido trocar direto o modelo de geração por um mais potente?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_005"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_005",
+        "chunk100_073",
+        "chunk100_013",
+        "chunk100_024",
+        "chunk100_074",
+        "chunk100_008",
+        "chunk100_023",
+        "chunk100_054",
+        "chunk100_010",
+        "chunk100_062"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que respostas longas tendem a demorar mais mesmo com o mesmo prompt de entrada?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_006"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_009",
+        "chunk100_024",
+        "chunk100_008",
+        "chunk100_013",
+        "chunk100_067",
+        "chunk100_006",
+        "chunk100_031",
+        "chunk100_066",
+        "chunk100_063",
+        "chunk100_064"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.3562071871080222
+    },
+    {
+      "query": "O que acontece quando o texto enviado ao modelo ultrapassa o limite da janela de contexto?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_006",
+        "chunk100_007"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_007",
+        "chunk100_010",
+        "chunk100_006",
+        "chunk100_014",
+        "chunk100_071",
+        "chunk100_064",
+        "chunk100_023",
+        "chunk100_011",
+        "chunk100_024",
+        "chunk100_080"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Como a temperatura do modelo influencia a variabilidade das respostas?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_007",
+        "chunk100_008"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_006",
+        "chunk100_003",
+        "chunk100_008",
+        "chunk100_073",
+        "chunk100_010",
+        "chunk100_024",
+        "chunk100_007",
+        "chunk100_005",
+        "chunk100_053",
+        "chunk100_013"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5109559939712153
+    },
+    {
+      "query": "Para uma tarefa de extração de dados estruturados que alimenta outro sistema, que configuração de temperatura e formato de saída é recomendada?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_007",
+        "chunk100_008"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_008",
+        "chunk100_029",
+        "chunk100_007",
+        "chunk100_022",
+        "chunk100_014",
+        "chunk100_030",
+        "chunk100_021",
+        "chunk100_028",
+        "chunk100_010",
+        "chunk100_077"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Qual a diferença entre um problema causado pelo modelo de geração e um problema causado por outro estágio do pipeline?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_004",
+        "chunk100_005"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_005",
+        "chunk100_023",
+        "chunk100_004",
+        "chunk100_056",
+        "chunk100_074",
+        "chunk100_058",
+        "chunk100_054",
+        "chunk100_063",
+        "chunk100_071",
+        "chunk100_021"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Por que métricas de qualidade devem ser avaliadas como média de várias execuções em vez de uma única chamada?",
+      "category": "fundamentos",
+      "relevant_passage_ids": [
+        "chunk100_003",
+        "chunk100_004"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_004",
+        "chunk100_054",
+        "chunk100_003",
+        "chunk100_068",
+        "chunk100_063",
+        "chunk100_069",
+        "chunk100_065",
+        "chunk100_066",
+        "chunk100_071",
+        "chunk100_072"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Qual a diferença entre system prompt e user prompt?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_008",
+        "chunk100_009"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_009",
+        "chunk100_012",
+        "chunk100_008",
+        "chunk100_076",
+        "chunk100_013",
+        "chunk100_011",
+        "chunk100_024",
+        "chunk100_064",
+        "chunk100_082",
+        "chunk100_075"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Onde devem ficar as regras de negócio e o formato de saída esperado de um assistente?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_008",
+        "chunk100_009"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_009",
+        "chunk100_010",
+        "chunk100_014",
+        "chunk100_008",
+        "chunk100_079",
+        "chunk100_080",
+        "chunk100_063",
+        "chunk100_059",
+        "chunk100_062",
+        "chunk100_056"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493
+    },
+    {
+      "query": "Por que às vezes vale incluir exemplos dentro do prompt em vez de só descrever a tarefa em texto?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_009",
+        "chunk100_010"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_009",
+        "chunk100_012",
+        "chunk100_010",
+        "chunk100_013",
+        "chunk100_024",
+        "chunk100_011",
+        "chunk100_008",
+        "chunk100_014",
+        "chunk100_063",
+        "chunk100_076"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "O que é prompt injection do ponto de vista de como o prompt é escrito?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_011",
+        "chunk100_012"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_076",
+        "chunk100_011",
+        "chunk100_009",
+        "chunk100_012",
+        "chunk100_013",
+        "chunk100_075",
+        "chunk100_064",
+        "chunk100_008",
+        "chunk100_014",
+        "chunk100_024"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6509209298071326
+    },
+    {
+      "query": "Quando um prompt deve receber uma nova versão?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_012",
+        "chunk100_013"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_012",
+        "chunk100_074",
+        "chunk100_013",
+        "chunk100_076",
+        "chunk100_009",
+        "chunk100_008",
+        "chunk100_075",
+        "chunk100_011",
+        "chunk100_024",
+        "chunk100_064"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Corrigir um erro de digitação em um prompt já em produção exige criar uma nova versão dele?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_012",
+        "chunk100_013"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_012",
+        "chunk100_013",
+        "chunk100_009",
+        "chunk100_076",
+        "chunk100_014",
+        "chunk100_008",
+        "chunk100_024",
+        "chunk100_074",
+        "chunk100_011",
+        "chunk100_067"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Se meu modelo erra porque falta informação no contexto, ajustar as instruções do prompt resolve o problema?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_013",
+        "chunk100_014"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_013",
+        "chunk100_010",
+        "chunk100_012",
+        "chunk100_014",
+        "chunk100_024",
+        "chunk100_009",
+        "chunk100_023",
+        "chunk100_011",
+        "chunk100_067",
+        "chunk100_005"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493
+    },
+    {
+      "query": "Por que usar delimitadores consistentes entre instrução, exemplos e contexto reduz erros de interpretação do modelo?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_014"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_010",
+        "chunk100_014",
+        "chunk100_013",
+        "chunk100_056",
+        "chunk100_011",
+        "chunk100_005",
+        "chunk100_023",
+        "chunk100_063",
+        "chunk100_003",
+        "chunk100_012"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575
+    },
+    {
+      "query": "Mudar apenas o delimitador usado para marcar o contexto em um prompt conta como nova versão desse prompt?",
+      "category": "prompting",
+      "relevant_passage_ids": [
+        "chunk100_012",
+        "chunk100_013",
+        "chunk100_014"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_012",
+        "chunk100_013",
+        "chunk100_009",
+        "chunk100_011",
+        "chunk100_014",
+        "chunk100_074",
+        "chunk100_007",
+        "chunk100_010",
+        "chunk100_076",
+        "chunk100_008"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9469024295259745
+    },
+    {
+      "query": "O que são embeddings e para que servem em um sistema de busca?",
+      "category": "embeddings",
+      "relevant_passage_ids": [
+        "chunk100_015"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_034",
+        "chunk100_015",
+        "chunk100_020",
+        "chunk100_016",
+        "chunk100_040",
+        "chunk100_019",
+        "chunk100_018",
+        "chunk100_033",
+        "chunk100_042",
+        "chunk100_043"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575
+    },
+    {
+      "query": "Como o cosine similarity é usado para comparar significado entre dois textos?",
+      "category": "embeddings",
+      "relevant_passage_ids": [
+        "chunk100_015",
+        "chunk100_016"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_015",
+        "chunk100_016",
+        "chunk100_038",
+        "chunk100_034",
+        "chunk100_033",
+        "chunk100_035",
+        "chunk100_020",
+        "chunk100_029",
+        "chunk100_019",
+        "chunk100_054"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Vetores de embedding maiores garantem melhor qualidade de recall?",
+      "category": "embeddings",
+      "relevant_passage_ids": [
+        "chunk100_017"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_017",
+        "chunk100_018",
+        "chunk100_040",
+        "chunk100_034",
+        "chunk100_015",
+        "chunk100_016",
+        "chunk100_050",
+        "chunk100_019",
+        "chunk100_038",
+        "chunk100_049"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Quando adicionar novos documentos ao índice exige reprocessar tudo que já estava indexado?",
+      "category": "embeddings",
+      "relevant_passage_ids": [
+        "chunk100_019"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_019",
+        "chunk100_018",
+        "chunk100_021",
+        "chunk100_037",
+        "chunk100_031",
+        "chunk100_027",
+        "chunk100_029",
+        "chunk100_078",
+        "chunk100_022",
+        "chunk100_041"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Mudar a estratégia de chunking sem trocar o embedding model ainda assim exige reindexação completa?",
+      "category": "embeddings",
+      "relevant_passage_ids": [
+        "chunk100_019"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_018",
+        "chunk100_019",
+        "chunk100_029",
+        "chunk100_031",
+        "chunk100_033",
+        "chunk100_032",
+        "chunk100_040",
+        "chunk100_017",
+        "chunk100_027",
+        "chunk100_021"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575
+    },
+    {
+      "query": "Qual a diferença entre busca lexical e busca semântica?",
+      "category": "embeddings",
+      "relevant_passage_ids": [
+        "chunk100_020"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_020",
+        "chunk100_034",
+        "chunk100_019",
+        "chunk100_033",
+        "chunk100_015",
+        "chunk100_035",
+        "chunk100_038",
+        "chunk100_029",
+        "chunk100_003",
+        "chunk100_016"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Quais são os estágios de um pipeline de RAG?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_021"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_021",
+        "chunk100_023",
+        "chunk100_022",
+        "chunk100_056",
+        "chunk100_020",
+        "chunk100_004",
+        "chunk100_077",
+        "chunk100_054",
+        "chunk100_045",
+        "chunk100_063"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que a etapa de ingestão de documentos deve preservar antes do chunking?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_021",
+        "chunk100_022"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_030",
+        "chunk100_029",
+        "chunk100_028",
+        "chunk100_032",
+        "chunk100_022",
+        "chunk100_021",
+        "chunk100_031",
+        "chunk100_027",
+        "chunk100_033",
+        "chunk100_077"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.45560514958746035
+    },
+    {
+      "query": "Se o retrieval nunca traz o passage correto, um modelo de geração melhor resolve o problema?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_005",
+        "chunk100_022",
+        "chunk100_023"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_005",
+        "chunk100_023",
+        "chunk100_067",
+        "chunk100_040",
+        "chunk100_054",
+        "chunk100_041",
+        "chunk100_024",
+        "chunk100_039",
+        "chunk100_037",
+        "chunk100_027"
+      ],
+      "recall_at_k": 0.6666666666666666,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.7653606369886217
+    },
+    {
+      "query": "O que é context assembly em um pipeline RAG?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_023",
+        "chunk100_024"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_023",
+        "chunk100_021",
+        "chunk100_022",
+        "chunk100_056",
+        "chunk100_020",
+        "chunk100_077",
+        "chunk100_007",
+        "chunk100_026",
+        "chunk100_011",
+        "chunk100_004"
+      ],
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584
+    },
+    {
+      "query": "Como o prompt de geração deve se comportar quando o contexto não contém a resposta?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_024"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_024",
+        "chunk100_009",
+        "chunk100_012",
+        "chunk100_067",
+        "chunk100_011",
+        "chunk100_013",
+        "chunk100_008",
+        "chunk100_010",
+        "chunk100_023",
+        "chunk100_064"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que citações são importantes em respostas geradas por um sistema RAG?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_025"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_024",
+        "chunk100_025",
+        "chunk100_022",
+        "chunk100_026",
+        "chunk100_023",
+        "chunk100_021",
+        "chunk100_054",
+        "chunk100_053",
+        "chunk100_010",
+        "chunk100_027"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575
+    },
+    {
+      "query": "O que significa uma resposta estar 'grounded' no contexto recuperado?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_025",
+        "chunk100_026"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_025",
+        "chunk100_026",
+        "chunk100_053",
+        "chunk100_011",
+        "chunk100_024",
+        "chunk100_067",
+        "chunk100_054",
+        "chunk100_063",
+        "chunk100_068",
+        "chunk100_048"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "RAG elimina completamente o risco de alucinação do modelo?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_026",
+        "chunk100_027"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_027",
+        "chunk100_026",
+        "chunk100_023",
+        "chunk100_021",
+        "chunk100_055",
+        "chunk100_025",
+        "chunk100_020",
+        "chunk100_074",
+        "chunk100_081",
+        "chunk100_079"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Que metadados a ingestão deve preservar para permitir citações confiáveis depois?",
+      "category": "rag",
+      "relevant_passage_ids": [
+        "chunk100_021",
+        "chunk100_022",
+        "chunk100_025"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_022",
+        "chunk100_038",
+        "chunk100_024",
+        "chunk100_025",
+        "chunk100_078",
+        "chunk100_021",
+        "chunk100_053",
+        "chunk100_077",
+        "chunk100_082",
+        "chunk100_037"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8385465274895063
+    },
+    {
+      "query": "Qual o tamanho de chunk recomendado como ponto de partida?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_027",
+        "chunk100_028"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_029",
+        "chunk100_030",
+        "chunk100_028",
+        "chunk100_031",
+        "chunk100_032",
+        "chunk100_027",
+        "chunk100_033",
+        "chunk100_022",
+        "chunk100_050",
+        "chunk100_072"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5249810332008933
+    },
+    {
+      "query": "Como funciona chunking semântico comparado a cortar por tamanho fixo?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_029"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_029",
+        "chunk100_030",
+        "chunk100_031",
+        "chunk100_033",
+        "chunk100_028",
+        "chunk100_032",
+        "chunk100_027",
+        "chunk100_020",
+        "chunk100_019",
+        "chunk100_022"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que é chunking baseado em estrutura do documento?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_030"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_030",
+        "chunk100_029",
+        "chunk100_032",
+        "chunk100_028",
+        "chunk100_033",
+        "chunk100_031",
+        "chunk100_027",
+        "chunk100_021",
+        "chunk100_022",
+        "chunk100_020"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que chunking baseado em estrutura é priorizado quando o documento tem headings claros?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_030"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_030",
+        "chunk100_029",
+        "chunk100_032",
+        "chunk100_031",
+        "chunk100_028",
+        "chunk100_033",
+        "chunk100_022",
+        "chunk100_027",
+        "chunk100_010",
+        "chunk100_021"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Chunks pequenos sempre produzem melhor retrieval que chunks grandes?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_030",
+        "chunk100_031"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_031",
+        "chunk100_030",
+        "chunk100_029",
+        "chunk100_032",
+        "chunk100_028",
+        "chunk100_033",
+        "chunk100_027",
+        "chunk100_039",
+        "chunk100_040",
+        "chunk100_036"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Como saber se um chunk está bem delimitado, sem depender de texto fora dele?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_032",
+        "chunk100_033"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_032",
+        "chunk100_030",
+        "chunk100_029",
+        "chunk100_033",
+        "chunk100_028",
+        "chunk100_014",
+        "chunk100_031",
+        "chunk100_010",
+        "chunk100_022",
+        "chunk100_027"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493
+    },
+    {
+      "query": "Uma categoria inteira de perguntas com recall baixo pode indicar problema na estratégia de chunking?",
+      "category": "chunking",
+      "relevant_passage_ids": [
+        "chunk100_031",
+        "chunk100_032"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_032",
+        "chunk100_029",
+        "chunk100_031",
+        "chunk100_028",
+        "chunk100_027",
+        "chunk100_030",
+        "chunk100_033",
+        "chunk100_021",
+        "chunk100_050",
+        "chunk100_038"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Como funciona o retrieval híbrido e o parâmetro alpha?",
+      "category": "retrieval",
+      "relevant_passage_ids": [
+        "chunk100_034",
+        "chunk100_035"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_035",
+        "chunk100_034",
+        "chunk100_040",
+        "chunk100_055",
+        "chunk100_021",
+        "chunk100_037",
+        "chunk100_039",
+        "chunk100_041",
+        "chunk100_027",
+        "chunk100_054"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Com que valor de top_k é recomendado começar um experimento de retrieval?",
+      "category": "retrieval",
+      "relevant_passage_ids": [
+        "chunk100_035",
+        "chunk100_036"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_036",
+        "chunk100_049",
+        "chunk100_035",
+        "chunk100_037",
+        "chunk100_050",
+        "chunk100_040",
+        "chunk100_039",
+        "chunk100_041",
+        "chunk100_027",
+        "chunk100_038"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Se eu aumentar o top-k, meu recall necessariamente melhora?",
+      "category": "retrieval",
+      "relevant_passage_ids": [
+        "chunk100_036",
+        "chunk100_037"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_036",
+        "chunk100_049",
+        "chunk100_050",
+        "chunk100_037",
+        "chunk100_035",
+        "chunk100_051",
+        "chunk100_045",
+        "chunk100_046",
+        "chunk100_039",
+        "chunk100_028"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493
+    },
+    {
+      "query": "Aumentar top-k pode mascarar um retriever com problema estrutural?",
+      "category": "retrieval",
+      "relevant_passage_ids": [
+        "chunk100_035",
+        "chunk100_036",
+        "chunk100_037"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_037",
+        "chunk100_036",
+        "chunk100_050",
+        "chunk100_049",
+        "chunk100_035",
+        "chunk100_045",
+        "chunk100_027",
+        "chunk100_040",
+        "chunk100_041",
+        "chunk100_039"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9469024295259745
+    },
+    {
+      "query": "Quando faz sentido aplicar filtros de metadata antes de calcular similaridade?",
+      "category": "retrieval",
+      "relevant_passage_ids": [
+        "chunk100_037",
+        "chunk100_038"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_038",
+        "chunk100_037",
+        "chunk100_078",
+        "chunk100_015",
+        "chunk100_016",
+        "chunk100_034",
+        "chunk100_019",
+        "chunk100_035",
+        "chunk100_020",
+        "chunk100_033"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Qual a diferença entre recall e precisão no retrieval?",
+      "category": "retrieval",
+      "relevant_passage_ids": [
+        "chunk100_038",
+        "chunk100_039"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_051",
+        "chunk100_049",
+        "chunk100_050",
+        "chunk100_038",
+        "chunk100_041",
+        "chunk100_053",
+        "chunk100_040",
+        "chunk100_039",
+        "chunk100_048",
+        "chunk100_036"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.45749452618986164
+    },
+    {
+      "query": "Qual a diferença entre retrieval e reranking?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_041"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_041",
+        "chunk100_040",
+        "chunk100_045",
+        "chunk100_042",
+        "chunk100_039",
+        "chunk100_046",
+        "chunk100_044",
+        "chunk100_043",
+        "chunk100_052",
+        "chunk100_050"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Quando vale colocar um reranker depois da busca vetorial?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_041",
+        "chunk100_042"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_041",
+        "chunk100_044",
+        "chunk100_042",
+        "chunk100_019",
+        "chunk100_045",
+        "chunk100_034",
+        "chunk100_020",
+        "chunk100_040",
+        "chunk100_046",
+        "chunk100_018"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Se o passage correto não está no candidate set, um reranker consegue recuperá-lo?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_041",
+        "chunk100_042"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_045",
+        "chunk100_042",
+        "chunk100_044",
+        "chunk100_039",
+        "chunk100_041",
+        "chunk100_046",
+        "chunk100_040",
+        "chunk100_043",
+        "chunk100_023",
+        "chunk100_054"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6240505200038379
+    },
+    {
+      "query": "Como funciona o reranking usando um LLM de propósito geral?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_043"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_043",
+        "chunk100_041",
+        "chunk100_042",
+        "chunk100_044",
+        "chunk100_046",
+        "chunk100_045",
+        "chunk100_003",
+        "chunk100_039",
+        "chunk100_040",
+        "chunk100_052"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Quantos candidatos normalmente chegam ao reranker?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_045"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_044",
+        "chunk100_045",
+        "chunk100_041",
+        "chunk100_039",
+        "chunk100_042",
+        "chunk100_043",
+        "chunk100_046",
+        "chunk100_040",
+        "chunk100_052",
+        "chunk100_035"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575
+    },
+    {
+      "query": "Por que reranking pode melhorar MRR sem melhorar Recall@K?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_041",
+        "chunk100_045",
+        "chunk100_046"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_045",
+        "chunk100_046",
+        "chunk100_051",
+        "chunk100_050",
+        "chunk100_041",
+        "chunk100_039",
+        "chunk100_044",
+        "chunk100_042",
+        "chunk100_040",
+        "chunk100_052"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9469024295259745
+    },
+    {
+      "query": "Reranking por LLM tem alguma desvantagem em relação a um cross-encoder dedicado?",
+      "category": "reranking",
+      "relevant_passage_ids": [
+        "chunk100_042",
+        "chunk100_043"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_043",
+        "chunk100_042",
+        "chunk100_044",
+        "chunk100_040",
+        "chunk100_041",
+        "chunk100_045",
+        "chunk100_039",
+        "chunk100_046",
+        "chunk100_003",
+        "chunk100_052"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Como o golden set usado para avaliação é construído?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_047"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_047",
+        "chunk100_068",
+        "chunk100_017",
+        "chunk100_054",
+        "chunk100_048",
+        "chunk100_055",
+        "chunk100_003",
+        "chunk100_046",
+        "chunk100_027",
+        "chunk100_074"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que um candidato de avaliação gerado automaticamente não entra direto como aprovado no golden set?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_047",
+        "chunk100_048"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_047",
+        "chunk100_055",
+        "chunk100_048",
+        "chunk100_054",
+        "chunk100_039",
+        "chunk100_044",
+        "chunk100_045",
+        "chunk100_046",
+        "chunk100_068",
+        "chunk100_003"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "O que é Recall@K?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_048",
+        "chunk100_049"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_050",
+        "chunk100_051",
+        "chunk100_049",
+        "chunk100_048",
+        "chunk100_036",
+        "chunk100_046",
+        "chunk100_045",
+        "chunk100_037",
+        "chunk100_052",
+        "chunk100_027"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5706417189553201
+    },
+    {
+      "query": "Que regra prática existe para saber se o corpus é grande o suficiente para um dado k?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_049",
+        "chunk100_050"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_050",
+        "chunk100_049",
+        "chunk100_035",
+        "chunk100_036",
+        "chunk100_027",
+        "chunk100_037",
+        "chunk100_028",
+        "chunk100_029",
+        "chunk100_047",
+        "chunk100_048"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Qual a diferença entre Recall@K e MRR?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_048",
+        "chunk100_049",
+        "chunk100_050",
+        "chunk100_051"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_051",
+        "chunk100_050",
+        "chunk100_046",
+        "chunk100_049",
+        "chunk100_045",
+        "chunk100_054",
+        "chunk100_048",
+        "chunk100_041",
+        "chunk100_038",
+        "chunk100_027"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9349366583346498
+    },
+    {
+      "query": "O que o nDCG mede que o Recall@K não captura?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_052"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_051",
+        "chunk100_052",
+        "chunk100_054",
+        "chunk100_050",
+        "chunk100_049",
+        "chunk100_027",
+        "chunk100_055",
+        "chunk100_045",
+        "chunk100_053",
+        "chunk100_048"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575
+    },
+    {
+      "query": "O que devo investigar quando o answer relevance está alto mas faithfulness está baixo?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_052",
+        "chunk100_053"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_053",
+        "chunk100_052",
+        "chunk100_054",
+        "chunk100_026",
+        "chunk100_039",
+        "chunk100_024",
+        "chunk100_003",
+        "chunk100_038",
+        "chunk100_031",
+        "chunk100_028"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Qual a diferença entre faithfulness e answer relevance?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_052",
+        "chunk100_053"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_053",
+        "chunk100_052",
+        "chunk100_026",
+        "chunk100_025",
+        "chunk100_024",
+        "chunk100_054",
+        "chunk100_003",
+        "chunk100_067",
+        "chunk100_002",
+        "chunk100_038"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que devemos medir separadamente em retrieval e generation?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_054"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_054",
+        "chunk100_053",
+        "chunk100_039",
+        "chunk100_022",
+        "chunk100_049",
+        "chunk100_066",
+        "chunk100_040",
+        "chunk100_050",
+        "chunk100_041",
+        "chunk100_037"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Que threshold de regressão de Recall@10 bloqueia o deploy no evaluation harness?",
+      "category": "avaliacao",
+      "relevant_passage_ids": [
+        "chunk100_055"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_055",
+        "chunk100_054",
+        "chunk100_045",
+        "chunk100_027",
+        "chunk100_051",
+        "chunk100_069",
+        "chunk100_049",
+        "chunk100_050",
+        "chunk100_036",
+        "chunk100_039"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que define um AI agent, diferente de um pipeline determinístico?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_055",
+        "chunk100_056"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_062",
+        "chunk100_056",
+        "chunk100_081",
+        "chunk100_058",
+        "chunk100_055",
+        "chunk100_004",
+        "chunk100_059",
+        "chunk100_080",
+        "chunk100_002",
+        "chunk100_079"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6240505200038379
+    },
+    {
+      "query": "O que é function calling e por que a descrição de uma tool importa tanto?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_056",
+        "chunk100_057"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_057",
+        "chunk100_056",
+        "chunk100_058",
+        "chunk100_063",
+        "chunk100_060",
+        "chunk100_079",
+        "chunk100_080",
+        "chunk100_061",
+        "chunk100_010",
+        "chunk100_059"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que a qualidade da descrição de uma tool afeta a taxa de acerto do agente na escolha certa?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_056",
+        "chunk100_057"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_057",
+        "chunk100_060",
+        "chunk100_062",
+        "chunk100_061",
+        "chunk100_058",
+        "chunk100_079",
+        "chunk100_003",
+        "chunk100_038",
+        "chunk100_054",
+        "chunk100_004"
+      ],
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584
+    },
+    {
+      "query": "Qual a diferença entre um agente escolher uma tool e um workflow chamar uma função diretamente?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_057",
+        "chunk100_058"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_057",
+        "chunk100_058",
+        "chunk100_062",
+        "chunk100_056",
+        "chunk100_060",
+        "chunk100_079",
+        "chunk100_059",
+        "chunk100_080",
+        "chunk100_061",
+        "chunk100_081"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que é planning em um agente?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_058",
+        "chunk100_059"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_058",
+        "chunk100_059",
+        "chunk100_062",
+        "chunk100_061",
+        "chunk100_081",
+        "chunk100_057",
+        "chunk100_079",
+        "chunk100_056",
+        "chunk100_080",
+        "chunk100_060"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que usar planning explícito em tarefas de múltiplos passos?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_058",
+        "chunk100_059"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_059",
+        "chunk100_058",
+        "chunk100_062",
+        "chunk100_063",
+        "chunk100_010",
+        "chunk100_057",
+        "chunk100_060",
+        "chunk100_056",
+        "chunk100_014",
+        "chunk100_073"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que acontece se um agente não tiver um limite de iterações configurado?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_059",
+        "chunk100_060"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_060",
+        "chunk100_059",
+        "chunk100_079",
+        "chunk100_062",
+        "chunk100_058",
+        "chunk100_081",
+        "chunk100_069",
+        "chunk100_061",
+        "chunk100_071",
+        "chunk100_080"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que ter muitas tools parecidas disponíveis para um agente aumenta a taxa de erro?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_060",
+        "chunk100_061"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_060",
+        "chunk100_061",
+        "chunk100_062",
+        "chunk100_079",
+        "chunk100_058",
+        "chunk100_057",
+        "chunk100_081",
+        "chunk100_059",
+        "chunk100_078",
+        "chunk100_055"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que significa memória no contexto de agentes?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_061"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_061",
+        "chunk100_081",
+        "chunk100_062",
+        "chunk100_059",
+        "chunk100_058",
+        "chunk100_055",
+        "chunk100_079",
+        "chunk100_080",
+        "chunk100_072",
+        "chunk100_082"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Se a sequência de passos de uma tarefa já é conhecida e fixa, um agente ainda é a melhor escolha?",
+      "category": "agentes",
+      "relevant_passage_ids": [
+        "chunk100_057",
+        "chunk100_058",
+        "chunk100_062"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_062",
+        "chunk100_059",
+        "chunk100_058",
+        "chunk100_060",
+        "chunk100_079",
+        "chunk100_061",
+        "chunk100_057",
+        "chunk100_081",
+        "chunk100_080",
+        "chunk100_056"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.86034433104172
+    },
+    {
+      "query": "O que é tracing de requisições em um sistema de IA?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_063"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_063",
+        "chunk100_002",
+        "chunk100_065",
+        "chunk100_004",
+        "chunk100_081",
+        "chunk100_055",
+        "chunk100_001",
+        "chunk100_080",
+        "chunk100_021",
+        "chunk100_072"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Que informação o tracing permite reconstruir sobre uma execução específica?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_063"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_063",
+        "chunk100_067",
+        "chunk100_059",
+        "chunk100_068",
+        "chunk100_078",
+        "chunk100_066",
+        "chunk100_056",
+        "chunk100_082",
+        "chunk100_069",
+        "chunk100_061"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que registrar o prompt final já montado, e não apenas o template do prompt?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_064"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_012",
+        "chunk100_009",
+        "chunk100_064",
+        "chunk100_013",
+        "chunk100_014",
+        "chunk100_011",
+        "chunk100_008",
+        "chunk100_076",
+        "chunk100_010",
+        "chunk100_082"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5
+    },
+    {
+      "query": "Um pico de custo sem aumento de tráfego proporcional geralmente indica o quê?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_064",
+        "chunk100_065"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_065",
+        "chunk100_073",
+        "chunk100_071",
+        "chunk100_072",
+        "chunk100_069",
+        "chunk100_068",
+        "chunk100_063",
+        "chunk100_054",
+        "chunk100_064",
+        "chunk100_039"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.7977228895450266
+    },
+    {
+      "query": "Como a latência de um sistema de IA deve ser medida?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_065",
+        "chunk100_066"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_065",
+        "chunk100_004",
+        "chunk100_002",
+        "chunk100_066",
+        "chunk100_001",
+        "chunk100_055",
+        "chunk100_069",
+        "chunk100_081",
+        "chunk100_006",
+        "chunk100_063"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493
+    },
+    {
+      "query": "Por que a latência do primeiro token é acompanhada separadamente da latência total?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_065",
+        "chunk100_066"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_066",
+        "chunk100_065",
+        "chunk100_006",
+        "chunk100_072",
+        "chunk100_064",
+        "chunk100_069",
+        "chunk100_063",
+        "chunk100_008",
+        "chunk100_068",
+        "chunk100_071"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Como detectar se uma resposta ruim veio de uma falha de retrieval e não de geração?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_066",
+        "chunk100_067",
+        "chunk100_068"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_067",
+        "chunk100_053",
+        "chunk100_054",
+        "chunk100_066",
+        "chunk100_024",
+        "chunk100_025",
+        "chunk100_063",
+        "chunk100_071",
+        "chunk100_068",
+        "chunk100_032"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.812653045383133
+    },
+    {
+      "query": "O que caracteriza uma falha de geração quando o contexto recuperado estava correto?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_067",
+        "chunk100_068"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_067",
+        "chunk100_023",
+        "chunk100_005",
+        "chunk100_054",
+        "chunk100_053",
+        "chunk100_068",
+        "chunk100_011",
+        "chunk100_024",
+        "chunk100_007",
+        "chunk100_013"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8315546295836225
+    },
+    {
+      "query": "Como tratar timeout em uma chamada de modelo?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_070"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_070",
+        "chunk100_069",
+        "chunk100_071",
+        "chunk100_072",
+        "chunk100_006",
+        "chunk100_064",
+        "chunk100_080",
+        "chunk100_063",
+        "chunk100_007",
+        "chunk100_073"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Quantas tentativas de retry são permitidas antes de acionar o fallback?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_069"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_069",
+        "chunk100_070",
+        "chunk100_071",
+        "chunk100_072",
+        "chunk100_066",
+        "chunk100_068",
+        "chunk100_063",
+        "chunk100_060",
+        "chunk100_054",
+        "chunk100_055"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que deve acontecer quando os retries configurados se esgotam e a chamada ainda falha?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_069",
+        "chunk100_070",
+        "chunk100_071"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_069",
+        "chunk100_070",
+        "chunk100_071",
+        "chunk100_072",
+        "chunk100_066",
+        "chunk100_064",
+        "chunk100_068",
+        "chunk100_063",
+        "chunk100_007",
+        "chunk100_044"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que é um fallback em um pipeline de produção?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_070",
+        "chunk100_071"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_071",
+        "chunk100_070",
+        "chunk100_068",
+        "chunk100_069",
+        "chunk100_074",
+        "chunk100_075",
+        "chunk100_023",
+        "chunk100_056",
+        "chunk100_004",
+        "chunk100_063"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que controlar rate limits do próprio lado do cliente?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_071",
+        "chunk100_072"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_071",
+        "chunk100_072",
+        "chunk100_069",
+        "chunk100_065",
+        "chunk100_068",
+        "chunk100_063",
+        "chunk100_077",
+        "chunk100_081",
+        "chunk100_064",
+        "chunk100_073"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "É seguro cachear qualquer resposta de geração da mesma forma que se cacheia embeddings de chunks?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_072"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_072",
+        "chunk100_032",
+        "chunk100_021",
+        "chunk100_033",
+        "chunk100_031",
+        "chunk100_019",
+        "chunk100_029",
+        "chunk100_018",
+        "chunk100_027",
+        "chunk100_022"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Como estruturar o controle de custo entre diferentes funcionalidades de produto?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_073"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_073",
+        "chunk100_065",
+        "chunk100_064",
+        "chunk100_072",
+        "chunk100_071",
+        "chunk100_063",
+        "chunk100_002",
+        "chunk100_056",
+        "chunk100_057",
+        "chunk100_014"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que não é seguro sempre usar 'a versão mais recente' de um modelo em produção?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_074"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_074",
+        "chunk100_073",
+        "chunk100_005",
+        "chunk100_013",
+        "chunk100_071",
+        "chunk100_012",
+        "chunk100_069",
+        "chunk100_055",
+        "chunk100_019",
+        "chunk100_062"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Qual o papel do golden set em relação a uma feature flag antes de um rollout completo?",
+      "category": "producao",
+      "relevant_passage_ids": [
+        "chunk100_068",
+        "chunk100_075"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_075",
+        "chunk100_074",
+        "chunk100_068",
+        "chunk100_055",
+        "chunk100_047",
+        "chunk100_017",
+        "chunk100_044",
+        "chunk100_054",
+        "chunk100_048",
+        "chunk100_046"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "query": "Como tratar prompt injection do ponto de vista de segurança?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_076"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_076",
+        "chunk100_011",
+        "chunk100_075",
+        "chunk100_009",
+        "chunk100_077",
+        "chunk100_014",
+        "chunk100_013",
+        "chunk100_008",
+        "chunk100_012",
+        "chunk100_082"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que a filtragem de dados sensíveis deve acontecer na ingestão e não apenas na resposta final?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_077"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_077",
+        "chunk100_082",
+        "chunk100_078",
+        "chunk100_072",
+        "chunk100_022",
+        "chunk100_063",
+        "chunk100_076",
+        "chunk100_066",
+        "chunk100_081",
+        "chunk100_021"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Onde o filtro de controle de acesso a documentos deve ser aplicado no pipeline de retrieval?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_077",
+        "chunk100_078"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_077",
+        "chunk100_078",
+        "chunk100_022",
+        "chunk100_021",
+        "chunk100_082",
+        "chunk100_020",
+        "chunk100_081",
+        "chunk100_023",
+        "chunk100_076",
+        "chunk100_065"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Quando uma tool usada por um agente exige confirmação humana antes de executar?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_078",
+        "chunk100_079"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_079",
+        "chunk100_078",
+        "chunk100_081",
+        "chunk100_060",
+        "chunk100_080",
+        "chunk100_055",
+        "chunk100_062",
+        "chunk100_063",
+        "chunk100_057",
+        "chunk100_058"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que a saída de um LLM deve ser validada antes de ser usada para disparar uma ação real?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_080"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_080",
+        "chunk100_003",
+        "chunk100_079",
+        "chunk100_081",
+        "chunk100_082",
+        "chunk100_063",
+        "chunk100_014",
+        "chunk100_013",
+        "chunk100_043",
+        "chunk100_078"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Qual o maior risco quando um agente pode executar ações externas que alteram estado fora do sistema de IA?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_081"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_081",
+        "chunk100_080",
+        "chunk100_079",
+        "chunk100_055",
+        "chunk100_059",
+        "chunk100_002",
+        "chunk100_062",
+        "chunk100_060",
+        "chunk100_058",
+        "chunk100_001"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "O que deve ser feito antes de persistir prompts e respostas em sistemas de observabilidade?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_082"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_082",
+        "chunk100_063",
+        "chunk100_081",
+        "chunk100_012",
+        "chunk100_009",
+        "chunk100_024",
+        "chunk100_064",
+        "chunk100_013",
+        "chunk100_079",
+        "chunk100_068"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Por que dados sensíveis podem acabar em sistemas de log mesmo sendo um sistema interno?",
+      "category": "seguranca",
+      "relevant_passage_ids": [
+        "chunk100_082"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_082",
+        "chunk100_077",
+        "chunk100_081",
+        "chunk100_076",
+        "chunk100_080",
+        "chunk100_079",
+        "chunk100_063",
+        "chunk100_003",
+        "chunk100_078",
+        "chunk100_025"
+      ],
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "query": "Se recall está ok mas as respostas continuam ruins, onde devo investigar primeiro?",
+      "category": "observabilidade",
+      "relevant_passage_ids": [
+        "chunk100_022",
+        "chunk100_023",
+        "chunk100_067",
+        "chunk100_068"
+      ],
+      "retrieved_passage_ids": [
+        "chunk100_067",
+        "chunk100_053",
+        "chunk100_024",
+        "chunk100_054",
+        "chunk100_032",
+        "chunk100_063",
+        "chunk100_025",
+        "chunk100_027",
+        "chunk100_048",
+        "chunk100_082"
+      ],
+      "recall_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.3903800499921017
+    }
+  ]
 }

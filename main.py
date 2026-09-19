@@ -1,11 +1,12 @@
 import hashlib
-import re
 import json
 import math
-from openai import OpenAI
 import os
-from dotenv import load_dotenv
+import re
 from collections import Counter
+
+from dotenv import load_dotenv
+from openai import OpenAI
 
 load_dotenv()
 
@@ -327,7 +328,7 @@ def retrieve_dense(
         embedded_chunks: list[dict],
         k: int,
 ) -> list[str]:
-    query_embeddings = create_embedding(query)
+    query_embeddings = create_embedding_cached(query)
 
     scored_chunks = []
 
@@ -418,9 +419,30 @@ def run_experiment(
 
     category_metrics = aggregate_metrics_by_category(results)
 
+    details = []
+
+    for retrieved_example, metrics in zip(
+            retrieved_dataset,
+            results,
+    ):
+        details.append({
+            "query": retrieved_example["query"],
+            "category": retrieved_example["category"],
+            "relevant_passage_ids": (
+                retrieved_example["relevant_passage_ids"]
+            ),
+            "retrieved_passage_ids": (
+                retrieved_example["retrieved_passage_ids"]
+            ),
+            "recall_at_k": metrics["recall_at_k"],
+            "reciprocal_rank": metrics["reciprocal_rank"],
+            "ndcg_at_k": metrics["ndcg_at_k"],
+        })
+
     return {
         "overall": overall_metrics,
         "by_category": category_metrics,
+        "details": details,
     }
 
 def retrieve_hybrid(
@@ -430,7 +452,7 @@ def retrieve_hybrid(
         alpha: float = 0.5,
 ):
     query_words = set(tokenize(query))
-    query_embeddings = create_embedding(query)
+    query_embeddings = create_embedding_cached(query)
 
     scored_chunks = []
 
@@ -489,13 +511,38 @@ def aggregate_metrics_by_category(
 
     return category_metrics
 
+def normalize_reranked_ids(
+    ranked_ids: list[str],
+    candidate_ids: list[str],
+) -> list[str]:
+    valid_candidates = set(candidate_ids)
+
+    normalized = []
+    seen = set()
+
+    for passage_id in ranked_ids:
+        if (
+            passage_id in valid_candidates
+            and passage_id not in seen
+        ):
+            normalized.append(passage_id)
+            seen.add(passage_id)
+
+    for passage_id in candidate_ids:
+        if passage_id not in seen:
+            normalized.append(passage_id)
+            seen.add(passage_id)
+
+    return normalized
+
 def rerank_with_gpt(
     query: str,
     candidate_ids: list[str],
     chunks: list[dict],
     k: int,
 ) -> list[str]:
-    model = "gpt-4.1-nano"
+    model = "gpt-4.1-mini"
+    prompt_version = "v2"
 
     os.makedirs(
         "cache/reranker",
@@ -507,6 +554,7 @@ def rerank_with_gpt(
         "candidate_ids": candidate_ids,
         "k": k,
         "model": model,
+        "prompt_version": prompt_version,
     }
 
     cache_content = json.dumps(
@@ -526,7 +574,12 @@ def rerank_with_gpt(
     if os.path.exists(cache_path):
         cached = load_json(cache_path)
 
-        return cached["ranked_ids"][:k]
+        ranked_ids = normalize_reranked_ids(
+            cached["ranked_ids"],
+            candidate_ids,
+        )
+
+        return ranked_ids[:k]
 
     chunks_by_id = {
         chunk["id"]: chunk
@@ -543,17 +596,35 @@ def rerank_with_gpt(
     ]
 
     prompt = f"""
-You are a retrieval reranker.
+    You are a retrieval reranker for a RAG system.
 
-Query:
-{query}
+    Your task is to rank passages by how useful they are
+    for directly answering the user's query.
 
-Candidate passages:
-{json.dumps(candidates, ensure_ascii=False)}
+    Query:
+    {query}
 
-Rank the candidate passage IDs from most relevant
-to least relevant for answering the query.
-"""
+    Candidate passages:
+    {json.dumps(candidates, ensure_ascii=False)}
+
+    Ranking criteria, in priority order:
+
+    1. Prefer passages that directly contain the information
+       needed to answer the query.
+
+    2. A passage that explicitly states the answer should rank
+       above a passage that merely shares similar words or topic.
+
+    3. Prefer specific and actionable information over general
+       background information.
+
+    4. Do not reward keyword overlap unless the passage actually
+       helps answer the query.
+
+    5. Rank every provided candidate ID exactly once.
+
+    Return the IDs from most relevant to least relevant.
+    """
 
     response = client.responses.create(
         model=model,
@@ -584,11 +655,10 @@ to least relevant for answering the query.
         response.output_text
     )
 
-    ranked_ids = [
-        passage_id
-        for passage_id in result["ranked_ids"]
-        if passage_id in candidate_ids
-    ]
+    ranked_ids = normalize_reranked_ids(
+        result["ranked_ids"],
+        candidate_ids,
+    )
 
     save_json(
         {
@@ -1139,6 +1209,122 @@ def load_json(
     with open(file_path, "r", encoding="utf-8") as file:
         return json.load(file)
 
+def create_embedding_cached(
+        text: str,
+        model: str = "text-embedding-3-small"
+) -> list[float]:
+    os.makedirs(
+        "cache/text_embeddings",
+        exist_ok=True,
+    )
+
+    cache_data = {
+        "text": text,
+        "model": model,
+    }
+
+    cache_content = json.dumps(
+        cache_data,
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+
+    cache_key = hashlib.sha256(
+        cache_content.encode("utf-8")
+    ).hexdigest()
+
+    cache_path = (
+        f"cache/text_embeddings/{cache_key}.json"
+    )
+
+    if os.path.exists(cache_path):
+        cached = load_json(cache_path)
+
+        return cached["embedding"]
+
+    response = client.embeddings.create(
+        model=model,
+        input=text,
+    )
+
+    embedding = response.data[0].embedding
+
+    save_json(
+        {
+            "embedding": embedding,
+        },
+        cache_path,
+    )
+
+    return embedding
+
+def find_largest_regressions(
+        baseline: dict,
+        candidate: dict,
+        metric: str,
+        limit: int = 5,
+) -> list[dict]:
+    baseline_by_query = {
+        item["query"]: item
+        for item in baseline["details"]
+    }
+
+    regressions = []
+
+    for candidate_item in candidate["details"]:
+        query = candidate_item["query"]
+
+        baseline_item = baseline_by_query[query]
+
+        delta = (
+            candidate_item[metric]
+            - baseline_item[metric]
+        )
+
+        regressions.append({
+            "query": query,
+            "category": candidate_item["category"],
+            "delta": delta,
+            "baseline_score": baseline_item[metric],
+            "candidate_score": candidate_item[metric],
+            "relevant_passage_ids": (
+                candidate_item["relevant_passage_ids"]
+            ),
+            "baseline_retrieved": (
+            baseline_item["retrieved_passage_ids"]
+            ),
+            "candidate_retrieved": (
+                candidate_item["retrieved_passage_ids"]
+            )
+        })
+
+    regressions.sort(
+        key=lambda item: item["delta"]
+    )
+
+    return regressions[:limit]
+
+def print_ranking_with_text(
+        retrieved_ids: list[str],
+        chunks: list[dict],
+) -> None:
+    chunks_by_id = {
+        chunk["id"]: chunk
+        for chunk in chunks
+    }
+
+    for rank, passage_id in enumerate(
+        retrieved_ids,
+        start = 1,
+    ):
+        chunk = chunks_by_id[passage_id]
+
+        print("\n" + "-" * 80)
+        print(f"Rank: {rank}")
+        print(f"ID: {passage_id}")
+        print("Text:")
+        print(chunk["text"])
+
 if __name__ == "__main__":
     K = 10
 
@@ -1396,4 +1582,213 @@ if __name__ == "__main__":
             dense_200["overall"],
             reranked_200["overall"],
         )
+    )
+
+    worst_reranker_queries = find_largest_regressions(
+        dense_200,
+        reranked_200,
+        metric="reciprocal_rank",
+        limit=5,
+    )
+
+    print("\nWorst reranker regressions:")
+
+    for regression in worst_reranker_queries:
+        print("\n" + "=" * 80)
+        print("Query:", regression["query"])
+        print("Category:", regression["category"])
+        print("Delta:", regression["delta"])
+        print(
+            "Baseline score:",
+            regression["baseline_score"],
+        )
+        print(
+            "Reranker score:",
+            regression["candidate_score"],
+        )
+        print(
+            "Relevant:",
+            regression["relevant_passage_ids"],
+        )
+        print(
+            "Dense:",
+            regression["baseline_retrieved"],
+        )
+        print(
+            "Reranked:",
+            regression["candidate_retrieved"],
+        )
+
+    print("\nDEBUG DENSE DETAIL:")
+
+    dense_detail = dense_200["details"][0]
+
+    print("Query:")
+    print(dense_detail["query"])
+
+    print("Relevant:")
+    print(dense_detail["relevant_passage_ids"])
+
+    print("Retrieved:")
+    print(dense_detail["retrieved_passage_ids"])
+
+    print(
+        "Retrieved count:",
+        len(dense_detail["retrieved_passage_ids"]),
+    )
+
+    print(
+        "Saved RR:",
+        dense_detail["reciprocal_rank"],
+    )
+
+    print(
+        "Recomputed RR:",
+        reciprocal_rank(
+            dense_detail["relevant_passage_ids"],
+            dense_detail["retrieved_passage_ids"],
+        ),
+    )
+
+    print("\nDEBUG RERANKER DETAIL:")
+
+    reranked_detail = reranked_200["details"][0]
+
+    print("Query:")
+    print(reranked_detail["query"])
+
+    print("Relevant:")
+    print(reranked_detail["relevant_passage_ids"])
+
+    print("Retrieved:")
+    print(reranked_detail["retrieved_passage_ids"])
+
+    print(
+        "Retrieved count:",
+        len(reranked_detail["retrieved_passage_ids"]),
+    )
+
+    print(
+        "Saved RR:",
+        reranked_detail["reciprocal_rank"],
+    )
+
+    print(
+        "Recomputed RR:",
+        reciprocal_rank(
+            reranked_detail["relevant_passage_ids"],
+            reranked_detail["retrieved_passage_ids"],
+        ),
+    )
+
+    debug_query = (
+        "Para uma tarefa de extração de dados estruturados que alimenta outro sistema, "
+        "que configuração de temperatura e formato de saída é recomendada?"
+    )
+
+    dense_debug = next(
+        item
+        for item in dense_200["details"]
+        if item["query"] == debug_query
+    )
+
+    reranked_debug = next(
+        item
+        for item in reranked_200["details"]
+        if item["query"] == debug_query
+    )
+
+    print("\nDENSE PROBLEM QUERY:")
+    print(dense_debug)
+    print(
+        "Recomputed RR:",
+        reciprocal_rank(
+            dense_debug["relevant_passage_ids"],
+            dense_debug["retrieved_passage_ids"],
+        ),
+    )
+
+    print("\nRERANKER PROBLEM QUERY:")
+    print(reranked_debug)
+    print(
+        "Recomputed RR:",
+        reciprocal_rank(
+            reranked_debug["relevant_passage_ids"],
+            reranked_debug["retrieved_passage_ids"],
+        ),
+    )
+
+    print("\nDENSE RANKING TEXTS:")
+
+    print_ranking_with_text(
+        dense_debug["retrieved_passage_ids"],
+        embedded_200,
+    )
+
+    print("\nRERANKED RANKING TEXTS:")
+
+    print_ranking_with_text(
+        reranked_debug["retrieved_passage_ids"],
+        embedded_200,
+    )
+
+    print("\nGROUND TRUTH:")
+
+    print_ranking_with_text(
+        reranked_debug["relevant_passage_ids"],
+        embedded_200,
+    )
+
+    worst_query = worst_reranker_queries[0]["query"]
+
+    dense_worst = next(
+        item
+        for item in dense_200["details"]
+        if item["query"] == worst_query
+    )
+
+    reranked_worst = next(
+        item
+        for item in reranked_200["details"]
+        if item["query"] == worst_query
+    )
+
+    print("\nWORST QUERY:")
+    print(worst_query)
+
+    print("\nGROUND TRUTH:")
+    print_ranking_with_text(
+        reranked_worst["relevant_passage_ids"],
+        embedded_200,
+    )
+
+    print("\nDENSE:")
+    print_ranking_with_text(
+        dense_worst["retrieved_passage_ids"][:3],
+        embedded_200,
+    )
+
+    print("\nRERANKER:")
+    print_ranking_with_text(
+        reranked_worst["retrieved_passage_ids"][:5],
+        embedded_200,
+    )
+
+    print("\nTESTING WORST QUERY WITH MINI:")
+
+    mini_result = retrieve_dense_reranked(
+        worst_query,
+        embedded_200,
+        K,
+    )
+
+    print("Relevant:")
+    print(reranked_worst["relevant_passage_ids"])
+
+    print("Mini ranking:")
+    print(mini_result)
+
+    print_ranking_with_text(
+        mini_result[:5],
+        embedded_200,
     )
