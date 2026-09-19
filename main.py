@@ -1,3 +1,4 @@
+import csv
 import hashlib
 import json
 import math
@@ -1301,6 +1302,12 @@ def find_largest_regressions(
             )
         })
 
+    regressions = [
+        regression
+        for regression in regressions
+        if regression["delta"] < 0
+    ]
+
     regressions.sort(
         key=lambda item: item["delta"]
     )
@@ -1327,6 +1334,63 @@ def print_ranking_with_text(
         print(f"ID: {passage_id}")
         print("Text:")
         print(chunk["text"])
+
+def build_results_table(
+    dense_100: dict,
+    dense_200: dict,
+    hybrid_200: dict,
+    reranked_200: dict,
+) -> list[dict]:
+    return [
+        {
+            "configuration": "dense_chunk100",
+            "recall_at_10": dense_100["overall"]["mean_recall_at_k"],
+            "mrr": dense_100["overall"]["mrr"],
+            "ndcg_at_10": dense_100["overall"]["mean_ndcg_at_k"],
+        },
+        {
+            "configuration": "dense_chunk200",
+            "recall_at_10": dense_200["overall"]["mean_recall_at_k"],
+            "mrr": dense_200["overall"]["mrr"],
+            "ndcg_at_10": dense_200["overall"]["mean_ndcg_at_k"],
+        },
+        {
+            "configuration": "hybrid_chunk200",
+            "recall_at_10": hybrid_200["overall"]["mean_recall_at_k"],
+            "mrr": hybrid_200["overall"]["mrr"],
+            "ndcg_at_10": hybrid_200["overall"]["mean_ndcg_at_k"],
+        },
+        {
+            "configuration": (
+                f"reranker_{RERANK_MODEL}_"
+                f"{RERANK_PROMPT_VERSION}_chunk200"
+            ),
+            "recall_at_10": reranked_200["overall"]["mean_recall_at_k"],
+            "mrr": reranked_200["overall"]["mrr"],
+            "ndcg_at_10": reranked_200["overall"]["mean_ndcg_at_k"],
+        },
+    ]
+
+def save_results_csv(
+    rows: list[dict],
+    file_path: str,
+) -> None:
+    if not rows:
+        return
+
+    with open(
+        file_path,
+        "w",
+        newline="",
+        encoding="utf-8",
+    ) as file:
+        writer = csv.DictWriter(
+            file,
+            fieldnames=rows[0].keys(),
+        )
+
+        writer.writeheader()
+        writer.writerows(rows)
 
 if __name__ == "__main__":
     K = 10
@@ -1755,56 +1819,58 @@ if __name__ == "__main__":
         embedded_200,
     )
 
-    worst_query = worst_reranker_queries[0]["query"]
+    if worst_reranker_queries:
+        worst_query = worst_reranker_queries[0]["query"]
 
-    dense_worst = next(
-        item
-        for item in dense_200["details"]
-        if item["query"] == worst_query
+        dense_worst = next(
+            item
+            for item in dense_200["details"]
+            if item["query"] == worst_query
+        )
+
+        reranked_worst = next(
+            item
+            for item in reranked_200["details"]
+            if item["query"] == worst_query
+        )
+
+        print("\nWORST QUERY:")
+        print(worst_query)
+
+        print("\nGROUND TRUTH:")
+        print_ranking_with_text(
+            reranked_worst["relevant_passage_ids"],
+            embedded_200,
+        )
+
+        print("\nDENSE:")
+        print_ranking_with_text(
+            dense_worst["retrieved_passage_ids"][:3],
+            embedded_200,
+        )
+
+        print("\nRERANKER:")
+        print_ranking_with_text(
+            reranked_worst["retrieved_passage_ids"][:5],
+            embedded_200,
+        )
+
+    else:
+        print("\nNo reranker MRR regressions found.")
+
+    results_table = build_results_table(
+        dense_100,
+        dense_200,
+        hybrid_200,
+        reranked_200,
     )
 
-    reranked_worst = next(
-        item
-        for item in reranked_200["details"]
-        if item["query"] == worst_query
+    save_results_csv(
+        results_table,
+        "results/retrieval_comparison.csv",
     )
 
-    print("\nWORST QUERY:")
-    print(worst_query)
+    print("\nRESULTS TABLE:")
 
-    print("\nGROUND TRUTH:")
-    print_ranking_with_text(
-        reranked_worst["relevant_passage_ids"],
-        embedded_200,
-    )
-
-    print("\nDENSE:")
-    print_ranking_with_text(
-        dense_worst["retrieved_passage_ids"][:3],
-        embedded_200,
-    )
-
-    print("\nRERANKER:")
-    print_ranking_with_text(
-        reranked_worst["retrieved_passage_ids"][:5],
-        embedded_200,
-    )
-
-    print("\nTESTING WORST QUERY WITH MINI:")
-
-    mini_result = retrieve_dense_reranked(
-        worst_query,
-        embedded_200,
-        K,
-    )
-
-    print("Relevant:")
-    print(reranked_worst["relevant_passage_ids"])
-
-    print("Mini ranking:")
-    print(mini_result)
-
-    print_ranking_with_text(
-        mini_result[:5],
-        embedded_200,
-    )
+    for row in results_table:
+        print(row)

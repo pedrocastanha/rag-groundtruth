@@ -1,6 +1,14 @@
 from main import passes_recall_gate, load_golden_set, load_chunks, embed_chunks, run_experiment, \
     retrieve_dense_reranked, retrieve_broken
+import json
 
+def load_baseline(file_path: str) -> dict:
+    with open(
+        file_path,
+        "r",
+        encoding="utf-8",
+    ) as file:
+        return json.load(file)
 
 def test_recall_gate_fail_when_drop_is_too_large():
     baseline_recall = 0.92
@@ -55,8 +63,17 @@ def test_recall_gate_detects_bad_retriever():
         k=10,
     )
 
-    baseline_recall = 1.0
-    candidate_recall = candidate["overall"]["mean_recall_at_k"]
+    baseline = load_baseline(
+        "baselines/retrieval_v1.json"
+    )
+
+    baseline_recall = (
+        baseline["metrics"]["recall_at_10"]
+    )
+
+    candidate_recall = (
+        candidate["overall"]["mean_recall_at_k"]
+    )
 
     assert not passes_recall_gate(
         baseline_recall,
