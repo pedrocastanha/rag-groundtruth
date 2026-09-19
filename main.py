@@ -535,14 +535,17 @@ def normalize_reranked_ids(
 
     return normalized
 
+RERANK_MODEL = "gpt-4.1-mini"
+RERANK_PROMPT_VERSION = "v2"
+
 def rerank_with_gpt(
     query: str,
     candidate_ids: list[str],
     chunks: list[dict],
     k: int,
 ) -> list[str]:
-    model = "gpt-4.1-mini"
-    prompt_version = "v2"
+    model = RERANK_MODEL
+    prompt_version = RERANK_PROMPT_VERSION
 
     os.makedirs(
         "cache/reranker",
@@ -1520,7 +1523,10 @@ if __name__ == "__main__":
     # ---------------------------------
 
     reranked_200_path = (
-        f"results/reranked_chunk200_k{K}.json"
+        f"results/"
+        f"reranked_{RERANK_MODEL}_"
+        f"{RERANK_PROMPT_VERSION}_"
+        f"chunk200_k{K}.json"
     )
 
     if os.path.exists(reranked_200_path):
@@ -1538,6 +1544,16 @@ if __name__ == "__main__":
             embedded_200,
             k=K,
         )
+
+        reranked_200["config"] = {
+            "retriever": "dense_reranker",
+            "reranker_model": RERANK_MODEL,
+            "prompt_version": RERANK_PROMPT_VERSION,
+            "chunk_size": 200,
+            "overlap": 40,
+            "k": K,
+            "candidate_k": K * 3,
+        }
 
         save_json(
             reranked_200,
