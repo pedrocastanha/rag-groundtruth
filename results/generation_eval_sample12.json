@@ -1,0 +1,98 @@
+[
+  {
+    "query": "O que caracteriza a Engenharia de IA como disciplina?",
+    "category": "fundamentos",
+    "answer": "A Engenharia de IA como disciplina é caracterizada pela construção de sistemas de produção que utilizam modelos de linguagem como um componente entre vários outros (retrieval, ferramentas, validação de saída, cache, observabilidade). Diferentemente da pesquisa em IA, que foca em otimizar a qualidade do modelo em si, a Engenharia de IA otimiza o sistema completo para confiabilidade, custo e latência em condições reais de uso. Além disso, por lidar com a natureza probabilística dos LLMs, na Engenharia de IA os testes avaliam propriedades qualitativas das respostas em vez de igualdade exata, e a avaliação é parte integrante do desenvolvimento.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.906513692418716,
+    "error": null
+  },
+  {
+    "query": "Qual a diferença entre system prompt e user prompt?",
+    "category": "prompting",
+    "answer": "O system prompt define o papel, as regras e as restrições permanentes do assistente, incluindo regras de negócio e formato de saída, enquanto o user prompt carrega a pergunta ou tarefa específica daquela chamada. Misturar regras no user prompt dificulta o reaproveitamento do system prompt entre diferentes perguntas.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.9871164169183747,
+    "error": null
+  },
+  {
+    "query": "O que são embeddings e para que servem em um sistema de busca?",
+    "category": "embeddings",
+    "answer": "Embeddings são representações numéricas (vetores) de um texto, geradas de forma que textos com significado semelhante fiquem próximos no espaço vetorial. Em um sistema de busca, eles servem para permitir a comparação do significado entre frases, mesmo sem compartilharem as mesmas palavras, possibilitando a busca semântica, que encontra documentos com significado parecido, não apenas com termos exatos.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.999999597264296,
+    "error": null
+  },
+  {
+    "query": "Quais são os estágios de um pipeline de RAG?",
+    "category": "rag",
+    "answer": "Os estágios de um pipeline de RAG são:  \n1. Ingestão de documentos  \n2. Chunking  \n3. Geração de embeddings e indexação  \n4. Retrieval no momento da pergunta  \n5. Reranking opcional dos candidatos  \n6. Montagem do contexto final  \n7. Geração da resposta com o modelo de linguagem.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.9999969448251859,
+    "error": null
+  },
+  {
+    "query": "Qual o tamanho de chunk recomendado como ponto de partida?",
+    "category": "chunking",
+    "answer": "O tamanho de chunk recomendado como ponto de partida é entre 200 e 500 tokens para a maioria dos documentos técnicos.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.8081490325820346,
+    "error": null
+  },
+  {
+    "query": "Como funciona o retrieval híbrido e o parâmetro alpha?",
+    "category": "retrieval",
+    "answer": "O retrieval híbrido combina o score denso (semântico) gerado por embeddings com o score léxico (baseado em palavras-chave, como BM25) em uma única pontuação. Isso é feito por meio de uma média ponderada controlada pelo parâmetro alpha. O valor padrão usado para alpha é 0,5, dando peso igual às duas abordagens. O valor de alpha pode ser ajustado experimentalmente para beneficiar mais a busca exata (alpha menor) ou a busca semântica (alpha maior) dependendo do domínio.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.5817911425397485,
+    "error": null
+  },
+  {
+    "query": "Qual a diferença entre retrieval e reranking?",
+    "category": "reranking",
+    "answer": "Retrieval é o estágio que reduz todo o corpus a um conjunto pequeno de candidatos plausíveis, priorizando escala e velocidade. Reranking é o estágio seguinte, que reordena esses candidatos com um modelo mais caro e mais preciso, otimizado para comparar poucos itens entre si, priorizando precisão na ordenação final. Em resumo, retrieval seleciona candidatos iniciais; reranking melhora a ordenação desses candidatos.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.8733713453444333,
+    "error": null
+  },
+  {
+    "query": "Como o golden set usado para avaliação é construído?",
+    "category": "avaliacao",
+    "answer": "O golden set usado para avaliação é construído gerando candidatos automaticamente a partir do corpus e depois submetendo cada candidato a uma revisão humana para confirmação da validade do par query e passages relevantes. Somente após essa revisão humana, que verifica se o exemplo é um par de referência válido, o candidato é aceito como referência confiável no golden set final.",
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "error": ""
+  },
+  {
+    "query": "O que define um AI agent, diferente de um pipeline determinístico?",
+    "category": "agentes",
+    "answer": "Um AI agent é definido por ser um sistema em que o modelo de linguagem decide, em tempo de execução, quais ações tomar e em qual ordem, ao contrário de um pipeline determinístico que segue uma sequência fixa de etapas independentemente da pergunta. Essa capacidade de decisão dinâmica, incluindo a seleção de tools a usar, permite maior flexibilidade para lidar com casos não previstos no fluxo, enquanto um pipeline determinístico é estático e previsível.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.9690341010316218,
+    "error": null
+  },
+  {
+    "query": "O que é tracing de requisições em um sistema de IA?",
+    "category": "observabilidade",
+    "answer": "Tracing de requisições em um sistema de IA é o registro, para cada requisição, da sequência completa de estágios executados (como retrieval, reranking, geração, chamadas de ferramentas) junto com seus tempos individuais, permitindo reconstruir exatamente o que aconteceu em uma execução específica. Isso facilita a depuração e análise detalhada do processamento da requisição.",
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "error": ""
+  },
+  {
+    "query": "Como tratar timeout em uma chamada de modelo?",
+    "category": "producao",
+    "answer": "Para tratar timeout em uma chamada de modelo, deve-se definir um tempo máximo de espera pela resposta (tipicamente 30 segundos para chamadas de geração). Se o tempo for excedido, a chamada é cancelada e considerada uma falha, entrando em um fluxo automático de retries com backoff exponencial (até 3 tentativas). Se as falhas persistirem após os retries, aciona-se um fallback configurado, que pode ser uma resposta padrão, um modelo mais simples ou uma mensagem de indisponibilidade temporária. Nunca deixar o timeout resultar em erro não tratado para o usuário final.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.9603102842372366,
+    "error": null
+  },
+  {
+    "query": "Como tratar prompt injection do ponto de vista de segurança?",
+    "category": "seguranca",
+    "answer": "Do ponto de vista de segurança, o prompt injection é visto como um vetor de ataque onde um documento malicioso ou input do usuário tenta fazer o modelo ignorar suas instruções originais e executar ações não autorizadas. Para tratar isso, qualquer conteúdo externo (input do usuário, contexto recuperado, output de tools) deve ser tratado como não confiável por padrão. Além disso, o conteúdo recuperado deve ser delimitado claramente (ex: com marcadores como `<contexto>` e `</contexto>`) para que o modelo não confunda instruções do usuário com conteúdo, evitando que texto malicioso seja interpretado como comando. Também é importante validar estruturalmente a saída do modelo antes de executar qualquer ação real baseada nela, tratando a saída do LLM como dado externo não confiável. Para ferramentas sensíveis, deve haver confirmação humana explícita antes da execução.",
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.8952252943241863,
+    "error": null
+  }
+]
