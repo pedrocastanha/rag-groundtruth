@@ -243,6 +243,50 @@ async def evaluate_sample(
 
     return results
 
+def aggregate_generation_results(
+        results: list[dict],
+) -> dict:
+    valid_results = [
+        result
+        for result in results
+        if result["error"] is None
+        and result["faithfulness"] is not None
+        and result["answer_relevancy"] is not None
+    ]
+
+    failed_results = [
+        result
+        for result in results
+        if result not in valid_results
+    ]
+
+    if not valid_results:
+        return {
+            "total": len(results),
+            "successful": 0,
+            "failed": len(failed_results),
+            "mean_faithfulness": None,
+            "mean_answer_relevancy": None,
+        }
+
+    mean_faithfulness = sum(
+        result["faithfulness"]
+        for result in valid_results
+    ) / len(valid_results)
+
+    mean_answer_relevancy = sum(
+        result["answer_relevancy"]
+        for result in valid_results
+    ) / len(valid_results)
+
+    return {
+        "total": len(results),
+        "successful": len(valid_results),
+        "failed": len(failed_results),
+        "mean_faithfulness": mean_faithfulness,
+        "mean_answer_relevancy": mean_answer_relevancy,
+    }
+
 if __name__ == "__main__":
     chunks = load_json(
         "cache/chunks_chunk200.json"
@@ -257,10 +301,27 @@ if __name__ == "__main__":
         sample_size=12,
     )
 
-    results = asyncio.run(
-        evaluate_sample(
-            sample,
-            chunks,
-            "results/generation_eval_sample12.json",
-        )
+    # results = asyncio.run(
+    #     evaluate_sample(
+    #         sample,
+    #         chunks,
+    #         "results/generation_eval_sample12.json",
+    #     )
+    # )
+
+    results = load_json(
+        "results/generation_eval_sample12.json"
     )
+
+    summary = aggregate_generation_results(
+        results
+    )
+
+    save_json(
+        summary,
+        "results/generation_eval_summary.json",
+    )
+
+    print("\nGeneration evaluation summary:")
+    print(summary)
+

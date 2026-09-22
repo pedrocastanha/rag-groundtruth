@@ -1,0 +1,7 @@
+{
+  "total": 12,
+  "successful": 10,
+  "failed": 2,
+  "mean_faithfulness": 1.0,
+  "mean_answer_relevancy": 0.8981507851485835
+}

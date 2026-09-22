@@ -1392,6 +1392,30 @@ def save_results_csv(
         writer.writeheader()
         writer.writerows(rows)
 
+def find_problematic_queries(
+        experiment: dict,
+        limit: int = 5,
+) -> list[dict]:
+    problematic = [
+        detail
+        for detail in experiment["details"]
+        if (
+            detail["recall_at_k"] < 1.0
+            or detail["reciprocal_rank"] < 1.0
+            or detail["ndcg_at_k"] < 1.0
+        )
+    ]
+
+    problematic.sort(
+        key=lambda detail: (
+            detail["recall_at_k"],
+            detail["ndcg_at_k"],
+            detail["reciprocal_rank"],
+        )
+    )
+
+    return problematic[:limit]
+
 if __name__ == "__main__":
     K = 10
 
@@ -1879,3 +1903,49 @@ if __name__ == "__main__":
 
     for row in results_table:
         print(row)
+
+    problematic_queries = find_problematic_queries(
+        reranked_200,
+        limit=5,
+    )
+
+    print("\n=== 5 PROBLEMATIC QUERIES ===")
+
+    for index, item in enumerate(
+            problematic_queries,
+            start=1,
+    ):
+        print(f"\n#{index}")
+        print("Query:", item["query"])
+        print("Category:", item["category"])
+        print(
+            "Relevant:",
+            item["relevant_passage_ids"],
+        )
+        print(
+            "Retrieved:",
+            item["retrieved_passage_ids"],
+        )
+        print("Recall:", item["recall_at_k"])
+        print("RR:", item["reciprocal_rank"])
+        print("nDCG:", item["ndcg_at_k"])
+
+    for index, item in enumerate(
+            problematic_queries,
+            start=1,
+    ):
+        print("\n" + "=" * 80)
+        print(f"PROBLEMATIC QUERY #{index}")
+        print(item["query"])
+
+        print("\nGROUND TRUTH:")
+        print_ranking_with_text(
+            item["relevant_passage_ids"],
+            embedded_200,
+        )
+
+        print("\nTOP 5 RETRIEVED:")
+        print_ranking_with_text(
+            item["retrieved_passage_ids"][:5],
+            embedded_200,
+        )
