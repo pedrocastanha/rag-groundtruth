@@ -1,0 +1,29 @@
+name: retrieval_controlled
+stage: retrieval_only
+dataset: golden_set.jsonl
+corpus:
+  sources:
+    - docs/sources/ai_engineering.md
+    - docs/sources/pedro_castanheira.md
+    - docs/sources/projects.md
+question_slices:
+  - single_document
+  - cross_document
+  - multi_hop
+retrieval_backends:
+  - flat
+  - filtered
+  - graph
+metrics:
+  - recall_at_10
+  - mrr
+  - ndcg_at_10
+cache:
+  enabled: true
+  root: cache
+  namespaces:
+    - text_embeddings
+    - knowledge_graph
+  key_fields:
+    embeddings: [text, embedding_model]
+    knowledge_graph: [corpus_fingerprint, chunking_version, extractor_model, prompt_version]

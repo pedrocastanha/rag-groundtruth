@@ -1,6 +1,6 @@
 # Groundtruth — The Ship Gate
 
-Evaluation harness para medir mudanças em retrieval de RAG antes de merge ou deploy. O projeto adapta o exercício Groundtruth do BASWE para o domínio **Cast — AI Engineering Handbook**: em vez de arquivos jurídicos, o corpus é o manual em [`docs/cast_ai_engineering.md`](docs/cast_ai_engineering.md).
+Evaluation harness para medir mudanças em retrieval de RAG antes de merge ou deploy. O projeto adapta o exercício Groundtruth do BASWE para o domínio **Cast — AI Engineering Handbook**: em vez de arquivos jurídicos, o corpus é o manual em [`docs/sources/ai_engineering.md`](docs/sources/ai_engineering.md).
 
 A regra do projeto é simples: uma mudança de retrieval precisa mostrar seus números e passar pelo gate de regressão antes de seguir.
 
@@ -25,7 +25,15 @@ As métricas de retrieval são agregadas no total e por categoria. Os detalhes p
 4. Embeddings e resultados do reranker são cacheados em `cache/` para reaproveitar chamadas já feitas.
 5. Os resultados são gravados em JSON e a comparação consolidada em CSV.
 
-Principais arquivos: [`main.py`](main.py) contém métricas e pipeline de retrieval; [`generation_eval.py`](generation_eval.py) avalia a geração; [`test_retrieval.py`](test_retrieval.py) cobre o gate e a regressão deliberada; [`baselines/retrieval_v1.json`](baselines/retrieval_v1.json) versiona a referência do gate.
+O pacote `groundtruth/` contém os arquivos vazios que organizam as próximas responsabilidades: `corpus/` para fontes e chunking; `retrieval/` para dense, filtros e grafo; `knowledge_graph/` para relações; `agents/` para tools e traces; `evaluation/` para métricas; `experiments/` para execução; e `cache.py` para a infraestrutura comum de cache. Eles são apenas a estrutura por enquanto. O código ativo continua em `main.py` e `generation_eval.py`; vamos migrá-lo módulo por módulo.
+
+As três comparações estão descritas em [`configs/experiments/`](configs/experiments/): retrieval controlado, agente controlado e agente ajustado por backend. O perfil e os projetos em [`docs/sources/pedro_castanheira.md`](docs/sources/pedro_castanheira.md) e [`docs/sources/projects.md`](docs/sources/projects.md) foram organizados a partir do currículo fornecido.
+
+O cache ativo continua no `main.py`: embeddings usam SHA-256 de texto e modelo; reranking usa pergunta, candidatos, `k`, modelo e versão do prompt. A arquitetura proposta mantém uma infraestrutura comum em `groundtruth/cache.py`, mas deixa cada etapa definir os dados de sua própria chave. Os namespaces planejados são `cache/text_embeddings/`, `cache/reranker/`, `cache/knowledge_graph/` e `cache/agent_runs/`. Assim, um resultado só é reutilizado quando suas entradas e versões correspondem.
+
+Para o grafo, a chave deve incluir fingerprint do corpus, versão do chunking, modelo extrator e versão do prompt. Para uma execução de agente, deve incluir ID da pergunta, backend/índice, modelo, versão do prompt, versão das tools e limites de execução. A organização deve preservar as chaves e caminhos atuais de embedding e reranking durante a migração, evitando chamadas pagas repetidas.
+
+Principais arquivos legados: [`main.py`](main.py) orquestra o pipeline atual; [`test_retrieval.py`](test_retrieval.py) cobre o gate e a regressão deliberada; [`baselines/retrieval_v1.json`](baselines/retrieval_v1.json) versiona a referência do gate.
 
 ## Experimentos e resultados
 

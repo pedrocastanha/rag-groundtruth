@@ -1031,6 +1031,82 @@ def main() -> None:
             f"RR={item['reciprocal_rank']:.3f}, nDCG={item['ndcg_at_k']:.3f})"
         )
 
+def main() -> None:
+    k = 10
+    os.makedirs("cache", exist_ok=True)
+    os.makedirs("results", exist_ok=True)
+
+    golden_set = load_golden_set("golden_set.jsonl")
+    validate_golden_set(golden_set)
+    with open("docs/sources/ai_engineering.md", "r", encoding="utf-8") as file:
+        document = file.read()
+
+    corpus_100 = chunk_document(document, chunk_size=100, overlap=20, prefix="chunk100")
+    corpus_200 = chunk_document(document, chunk_size=200, overlap=40, prefix="chunk200")
+    save_json(corpus_200, "cache/chunks_chunk200.json")
+
+    golden_100 = remap_golden_set_by_spans(golden_set, document, corpus_100)
+    golden_200 = remap_golden_set_by_spans(golden_set, document, corpus_200)
+
+    def load_or_embed(corpus: list[dict], cache_path: str) -> list[dict]:
+        if os.path.exists(cache_path):
+            return load_json(cache_path)
+        embedded = embed_chunks(corpus)
+        save_json(embedded, cache_path)
+        return embedded
+
+    embedded_100 = load_or_embed(corpus_100, "cache/embeddings_chunk100.json")
+    embedded_200 = load_or_embed(corpus_200, "cache/embeddings_chunk200.json")
+
+    def load_or_run(path: str, golden: list[dict], retriever, chunks: list[dict]) -> dict:
+        if os.path.exists(path):
+            return load_json(path)
+        result = run_experiment(golden, retriever, chunks, k=k)
+        save_json(result, path)
+        return result
+
+    dense_100 = load_or_run(
+        f"results/dense_chunk100_k{k}.json", golden_100, retrieve_dense, embedded_100
+    )
+    dense_200 = load_or_run(
+        f"results/dense_chunk200_k{k}.json", golden_200, retrieve_dense, embedded_200
+    )
+    hybrid_200 = load_or_run(
+        f"results/hybrid_chunk200_k{k}.json", golden_200, retrieve_hybrid, embedded_200
+    )
+
+    reranked_path = (
+        f"results/reranked_{RERANK_MODEL}_{RERANK_PROMPT_VERSION}_chunk200_k{k}.json"
+    )
+    reranked_200 = load_or_run(
+        reranked_path, golden_200, retrieve_dense_reranked, embedded_200
+    )
+    reranked_200.setdefault("config", {
+        "retriever": "dense_reranker",
+        "reranker_model": RERANK_MODEL,
+        "prompt_version": RERANK_PROMPT_VERSION,
+        "chunk_size": 200,
+        "overlap": 40,
+        "k": k,
+        "candidate_k": k * 3,
+    })
+    save_json(reranked_200, reranked_path)
+
+    results_table = build_results_table(dense_100, dense_200, hybrid_200, reranked_200)
+    save_results_csv(results_table, "results/retrieval_comparison.csv")
+
+    print("Retrieval results:")
+    for row in results_table:
+        print(row)
+
+    print("\nFive queries to inspect:")
+    for index, item in enumerate(find_problematic_queries(reranked_200), start=1):
+        print(
+            f"#{index} [{item['category']}] {item['query']} "
+            f"(Recall={item['recall_at_k']:.3f}, "
+            f"RR={item['reciprocal_rank']:.3f}, nDCG={item['ndcg_at_k']:.3f})"
+        )
+
 
 if __name__ == "__main__":
     main()

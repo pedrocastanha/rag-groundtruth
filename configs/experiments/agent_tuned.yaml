@@ -1,0 +1,49 @@
+name: agent_tuned
+stage: agent_tuned
+dataset: golden_set.jsonl
+agent:
+  mode: tuned
+  model: gpt-4.1-mini
+  max_tool_calls: 5
+  max_steps: 8
+strategies:
+  flat:
+    prompt_version: flat_v1
+    tools:
+      - search_all
+  filtered:
+    prompt_version: filtered_v1
+    tools:
+      - search_by_document
+  graph:
+    prompt_version: graph_v1
+    tools:
+      - graph_search
+      - fetch_source_chunks
+question_slices:
+  - single_document
+  - cross_document
+  - multi_hop
+metrics:
+  - tool_calls_per_answer
+  - tool_calls_by_name
+  - unique_tools_per_answer
+  - failed_tool_calls
+  - repeated_tool_calls
+  - cost_usd_per_answer
+  - latency_ms_per_answer
+  - faithfulness
+  - answer_relevancy
+cache:
+  enabled: true
+  root: cache
+  namespaces:
+    - text_embeddings
+    - reranker
+    - knowledge_graph
+    - agent_runs
+  key_fields:
+    embeddings: [text, embedding_model]
+    reranker: [query, candidate_ids, k, model, prompt_version]
+    knowledge_graph: [corpus_fingerprint, chunking_version, extractor_model, prompt_version]
+    agent_runs: [query_id, backend, index_fingerprint, model, prompt_version, tool_schema_version, max_tool_calls, max_steps]
