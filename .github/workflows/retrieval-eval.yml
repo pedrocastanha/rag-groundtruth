@@ -28,4 +28,4 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          python -m pytest test.py -v
+          python -m pytest test_retrieval.py -v

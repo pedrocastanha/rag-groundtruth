@@ -12,9 +12,9 @@ def load_baseline(file_path: str) -> dict:
 
 def test_recall_gate_fail_when_drop_is_too_large():
     baseline_recall = 0.92
-    cadidate_recall = 0.90
+    candidate_recall = 0.90
 
-    result = passes_recall_gate(baseline_recall, cadidate_recall)
+    result = passes_recall_gate(baseline_recall, candidate_recall)
 
     assert result is False
 
@@ -42,7 +42,8 @@ def test_recall_at_10_does_not_regress():
         k=10,
     )
 
-    baseline_recall = 1.0
+    baseline = load_baseline("baselines/retrieval_v1.json")
+    baseline_recall = baseline["metrics"]["recall_at_10"]
 
     candidate_recall = candidate["overall"]["mean_recall_at_k"]
 
