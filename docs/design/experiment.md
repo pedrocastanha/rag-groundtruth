@@ -38,7 +38,7 @@ Agente: tools chamadas e frequência por tool, chamadas repetidas ou com erro, c
 
 ## Organização do cache
 
-`groundtruth/cache.py` será a camada compartilhada de armazenamento, hashing e leitura/escrita atômica. Cada módulo será responsável por montar sua chave com todos os parâmetros que alteram a saída; assim, a camada comum não precisa conhecer detalhes de embedding, grafo ou agente.
+`../../src/groundtruth` será a camada compartilhada de armazenamento, hashing e leitura/escrita atômica. Cada módulo será responsável por montar sua chave com todos os parâmetros que alteram a saída; assim, a camada comum não precisa conhecer detalhes de embedding, grafo ou agente.
 
 Namespaces planejados:
 
@@ -51,4 +51,4 @@ Os caches atuais de embeddings e reranking devem continuar válidos após a migr
 
 ## Estado
 
-Este arquivo registra o desenho do experimento. `docs/sources/pedro_castanheira.md` e `docs/sources/projects.md` foram redigidos com informações do currículo fornecido. Os módulos em `groundtruth/` continuam placeholders vazios; filtros, grafo e agente ainda serão implementados passo a passo.
+Este arquivo registra o desenho do experimento. `docs/sources/pedro_castanheira.md` e `docs/sources/projects.md` foram redigidos com informações do currículo fornecido. Os módulos em `../../src/groundtruth` continuam placeholders vazios; filtros, grafo e agente ainda serão implementados passo a passo.
