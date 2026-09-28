@@ -10,7 +10,7 @@ Atua de ponta a ponta em projetos de IA: conversa com stakeholders, transforma n
 
 Desde maio de 2025, trabalha na Inova Soluções Educacionais como Engenheiro de Software — IA & GenAI e Tech Lead de Squad. É responsável de ponta a ponta por cinco projetos simultâneos e participa da definição do roadmap de funcionalidades do time.
 
-As iniciativas do time incluem Clara AI, Converte AI, Documents Validator, chatbots educacionais e trabalho compartilhado de observabilidade e guardrails.
+Na experiência profissional, trabalha em iniciativas de IA e GenAI de ponta a ponta, desde o entendimento com stakeholders e definição de roadmap até implementação, avaliação e operação. O currículo também destaca liderança técnica, code review, pareamento, observabilidade, guardrails e colaboração entre engenharia e negócio.
 
 ## Especialidades
 

@@ -1,0 +1,1810 @@
+{
+  "experiment": "retrieval_controlled",
+  "dataset": "datasets/golden_set_multidoc.jsonl",
+  "dataset_size": 18,
+  "index_fingerprint": "43952e35b20ba02736f7cff812693c8e0217bd5cc380de8912701605665689f2:word200-overlap40:text-embedding-3-small",
+  "shared_setup_cost_usd": 0.0,
+  "cache": {
+    "embedding_hits": 48,
+    "embedding_misses": 0
+  },
+  "configurations": {
+    "flat": {
+      "metrics": {
+        "recall_at_10": 0.9166666666666666,
+        "mrr": 0.7324074074074074,
+        "ndcg_at_10": 0.7557162862893978
+      },
+      "slices": {
+        "category": {
+          "avaliacao": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "avaliacao_observabilidade": {
+            "recall_at_10": 0.5,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.6131471927654584
+          },
+          "carreira": {
+            "recall_at_10": 0.6666666666666666,
+            "mrr": 0.6666666666666666,
+            "ndcg_at_10": 0.6666666666666666
+          },
+          "carreira_projetos": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.8772153153380493
+          },
+          "chunking": {
+            "recall_at_10": 1.0,
+            "mrr": 0.3333333333333333,
+            "ndcg_at_10": 0.5
+          },
+          "embeddings": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "fundamentos": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "projetos_pessoais": {
+            "recall_at_10": 1.0,
+            "mrr": 0.8,
+            "ndcg_at_10": 0.8523719014285831
+          },
+          "rag": {
+            "recall_at_10": 1.0,
+            "mrr": 0.1,
+            "ndcg_at_10": 0.2890648263178879
+          },
+          "reranking": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "retrieval": {
+            "recall_at_10": 1.0,
+            "mrr": 0.25,
+            "ndcg_at_10": 0.43067655807339306
+          },
+          "seguranca": {
+            "recall_at_10": 1.0,
+            "mrr": 0.5,
+            "ndcg_at_10": 0.6309297535714575
+          }
+        },
+        "difficulty": {
+          "easy": {
+            "recall_at_10": 0.8571428571428571,
+            "mrr": 0.7285714285714285,
+            "ndcg_at_10": 0.7555806894739839
+          },
+          "hard": {
+            "recall_at_10": 0.875,
+            "mrr": 0.875,
+            "ndcg_at_10": 0.7803230654187413
+          },
+          "medium": {
+            "recall_at_10": 1.0,
+            "mrr": 0.6547619047619048,
+            "ndcg_at_10": 0.7417908664594727
+          }
+        },
+        "question_type": {
+          "cross_document": {
+            "recall_at_10": 0.75,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.7451812540517538
+          },
+          "multi_hop": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "single_document": {
+            "recall_at_10": 0.9333333333333333,
+            "mrr": 0.6788888888888889,
+            "ndcg_at_10": 0.7408353763403769
+          }
+        }
+      },
+      "details": [
+        {
+          "query_id": "q001",
+          "query": "O que diferencia engenharia de IA da engenharia de software tradicional?",
+          "category": "fundamentos",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0001",
+            "pedro_0001",
+            "pedro_0002",
+            "ai_engineering_0002",
+            "ai_engineering_0028",
+            "ai_engineering_0041",
+            "ai_engineering_0040",
+            "projects_0003",
+            "ai_engineering_0030",
+            "projects_0002"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q002",
+          "query": "Por que uma resposta errada de um RAG pode ser um problema de retrieval, e não do modelo?",
+          "category": "rag",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0013",
+            "ai_engineering_0011",
+            "ai_engineering_0027",
+            "ai_engineering_0012",
+            "ai_engineering_0036",
+            "ai_engineering_0014",
+            "ai_engineering_0002",
+            "ai_engineering_0010",
+            "ai_engineering_0020",
+            "ai_engineering_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.1,
+          "ndcg_at_10": 0.2890648263178879
+        },
+        {
+          "query_id": "q003",
+          "query": "Como prompt injection pode aparecer em um pipeline RAG e qual mitigação básica é recomendada?",
+          "category": "seguranca",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0006"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0038",
+            "ai_engineering_0006",
+            "ai_engineering_0039",
+            "ai_engineering_0005",
+            "ai_engineering_0011",
+            "ai_engineering_0012",
+            "ai_engineering_0007",
+            "ai_engineering_0041",
+            "ai_engineering_0037",
+            "ai_engineering_0010"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q004",
+          "query": "Qual a relação entre overlap de chunks e o risco de duplicar informação no contexto?",
+          "category": "chunking",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0014"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0015",
+            "ai_engineering_0016",
+            "ai_engineering_0014",
+            "ai_engineering_0017",
+            "ai_engineering_0039",
+            "ai_engineering_0019",
+            "ai_engineering_0010",
+            "ai_engineering_0036",
+            "ai_engineering_0027",
+            "ai_engineering_0033"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5
+        },
+        {
+          "query_id": "q005",
+          "query": "O que MRR mede em uma avaliação de retrieval?",
+          "category": "avaliacao",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0025"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0025",
+            "ai_engineering_0026",
+            "ai_engineering_0027",
+            "ai_engineering_0019",
+            "ai_engineering_0020",
+            "ai_engineering_0021",
+            "ai_engineering_0017",
+            "ai_engineering_0023",
+            "ai_engineering_0024",
+            "ai_engineering_0011"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q006",
+          "query": "Como embeddings permitem recuperar um trecho que usa palavras diferentes das da pergunta?",
+          "category": "embeddings",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0008"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0008",
+            "ai_engineering_0017",
+            "ai_engineering_0007",
+            "ai_engineering_0010",
+            "ai_engineering_0011",
+            "ai_engineering_0014",
+            "ai_engineering_0021",
+            "ai_engineering_0009",
+            "ai_engineering_0020",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q007",
+          "query": "Quando faz sentido usar busca híbrida em vez de apenas busca densa?",
+          "category": "retrieval",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0020"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0017",
+            "ai_engineering_0010",
+            "ai_engineering_0018",
+            "ai_engineering_0020",
+            "ai_engineering_0015",
+            "ai_engineering_0021",
+            "ai_engineering_0019",
+            "ai_engineering_0008",
+            "ai_engineering_0022",
+            "ai_engineering_0016"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.25,
+          "ndcg_at_10": 0.43067655807339306
+        },
+        {
+          "query_id": "q008",
+          "query": "Por que um reranker pode melhorar MRR sem aumentar Recall@K?",
+          "category": "reranking",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0023"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0023",
+            "ai_engineering_0026",
+            "ai_engineering_0021",
+            "ai_engineering_0019",
+            "ai_engineering_0022",
+            "ai_engineering_0025",
+            "ai_engineering_0020",
+            "ai_engineering_0027",
+            "ai_engineering_0018",
+            "ai_engineering_0014"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q009",
+          "query": "Que experiência profissional o perfil descreve na Inova Soluções Educacionais?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "pedro_0002",
+            "projects_0003",
+            "ai_engineering_0001",
+            "projects_0001",
+            "ai_engineering_0030",
+            "ai_engineering_0002",
+            "projects_0002",
+            "ai_engineering_0027",
+            "ai_engineering_0028"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q010",
+          "query": "Quais tecnologias de orquestração multiagente aparecem no perfil profissional?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "ai_engineering_0030",
+            "pedro_0002",
+            "ai_engineering_0031",
+            "projects_0003",
+            "ai_engineering_0029",
+            "projects_0002",
+            "ai_engineering_0041",
+            "ai_engineering_0028",
+            "ai_engineering_0040"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q011",
+          "query": "Quais ferramentas de banco vetorial e testes são citadas no perfil?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0002"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0039",
+            "projects_0003",
+            "ai_engineering_0010",
+            "ai_engineering_0037",
+            "ai_engineering_0002",
+            "ai_engineering_0027",
+            "ai_engineering_0032",
+            "ai_engineering_0008",
+            "ai_engineering_0017",
+            "ai_engineering_0036"
+          ],
+          "recall_at_10": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0
+        },
+        {
+          "query_id": "q012",
+          "query": "Como o Cast Review organiza as diferentes dimensões de uma revisão de pull request?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0001",
+            "projects_0002",
+            "projects_0003",
+            "ai_engineering_0037",
+            "ai_engineering_0019",
+            "ai_engineering_0016",
+            "ai_engineering_0024",
+            "ai_engineering_0027",
+            "ai_engineering_0017",
+            "ai_engineering_0015"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q013",
+          "query": "Como a arquitetura planejada do Cast Review separa integração com GitHub e execução dos agentes?",
+          "category": "projetos_pessoais",
+          "difficulty": "hard",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0001",
+            "ai_engineering_0028",
+            "ai_engineering_0030",
+            "projects_0003",
+            "ai_engineering_0029",
+            "ai_engineering_0031",
+            "ai_engineering_0040",
+            "ai_engineering_0041",
+            "ai_engineering_0037"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q014",
+          "query": "Que partes do fluxo de desenvolvimento o Cast Code automatiza e com quais plataformas se integra?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0002"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0003",
+            "projects_0001",
+            "pedro_0001",
+            "ai_engineering_0037",
+            "pedro_0002",
+            "ai_engineering_0029",
+            "ai_engineering_0032",
+            "ai_engineering_0028",
+            "ai_engineering_0035"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q015",
+          "query": "Que recursos de observabilidade o Tracecast oferece para investigar execuções de agentes?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0003",
+            "ai_engineering_0031",
+            "ai_engineering_0032",
+            "ai_engineering_0041",
+            "ai_engineering_0028",
+            "ai_engineering_0034",
+            "ai_engineering_0033",
+            "ai_engineering_0040",
+            "ai_engineering_0039"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q016",
+          "query": "Como habilidades profissionais listadas no perfil aparecem na arquitetura proposta para o Cast Review?",
+          "category": "carreira_projetos",
+          "difficulty": "hard",
+          "question_type": "cross_document",
+          "expected_document_ids": [
+            "pedro",
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001",
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0001",
+            "projects_0003",
+            "projects_0002",
+            "pedro_0001",
+            "pedro_0002",
+            "ai_engineering_0037",
+            "ai_engineering_0001",
+            "ai_engineering_0028",
+            "ai_engineering_0029",
+            "ai_engineering_0024"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 0.8772153153380493
+        },
+        {
+          "query_id": "q017",
+          "query": "Como a recomendação de avaliar durante o desenvolvimento se relaciona à proposta do Tracecast?",
+          "category": "avaliacao_observabilidade",
+          "difficulty": "hard",
+          "question_type": "cross_document",
+          "expected_document_ids": [
+            "ai_engineering",
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0001",
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0003",
+            "ai_engineering_0032",
+            "projects_0002",
+            "ai_engineering_0033",
+            "ai_engineering_0027",
+            "ai_engineering_0037",
+            "ai_engineering_0034",
+            "projects_0001",
+            "ai_engineering_0028",
+            "ai_engineering_0002"
+          ],
+          "recall_at_10": 0.5,
+          "mrr": 1.0,
+          "ndcg_at_10": 0.6131471927654584
+        },
+        {
+          "query_id": "q018",
+          "query": "Como o Cast Code e o Cast Skills podem reduzir trabalho repetitivo e apoiar o desenvolvimento assistido por IA?",
+          "category": "projetos_pessoais",
+          "difficulty": "hard",
+          "question_type": "multi_hop",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0002",
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0003",
+            "projects_0002",
+            "projects_0001",
+            "ai_engineering_0028",
+            "pedro_0001",
+            "ai_engineering_0001",
+            "ai_engineering_0030",
+            "ai_engineering_0033",
+            "ai_engineering_0036",
+            "ai_engineering_0040"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        }
+      ],
+      "configuration_cost_usd": 0.0
+    },
+    "filtered": {
+      "metrics": {
+        "recall_at_10": 0.9722222222222222,
+        "mrr": 0.7601851851851852,
+        "ndcg_at_10": 0.79076793926559
+      },
+      "slices": {
+        "category": {
+          "avaliacao": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "avaliacao_observabilidade": {
+            "recall_at_10": 0.5,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.6131471927654584
+          },
+          "carreira": {
+            "recall_at_10": 1.0,
+            "mrr": 0.8333333333333334,
+            "ndcg_at_10": 0.8769765845238192
+          },
+          "carreira_projetos": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.8772153153380493
+          },
+          "chunking": {
+            "recall_at_10": 1.0,
+            "mrr": 0.3333333333333333,
+            "ndcg_at_10": 0.5
+          },
+          "embeddings": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "fundamentos": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "projetos_pessoais": {
+            "recall_at_10": 1.0,
+            "mrr": 0.8,
+            "ndcg_at_10": 0.8523719014285831
+          },
+          "rag": {
+            "recall_at_10": 1.0,
+            "mrr": 0.1,
+            "ndcg_at_10": 0.2890648263178879
+          },
+          "reranking": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "retrieval": {
+            "recall_at_10": 1.0,
+            "mrr": 0.25,
+            "ndcg_at_10": 0.43067655807339306
+          },
+          "seguranca": {
+            "recall_at_10": 1.0,
+            "mrr": 0.5,
+            "ndcg_at_10": 0.6309297535714575
+          }
+        },
+        "difficulty": {
+          "easy": {
+            "recall_at_10": 1.0,
+            "mrr": 0.7999999999999999,
+            "ndcg_at_10": 0.8457135114127636
+          },
+          "hard": {
+            "recall_at_10": 0.875,
+            "mrr": 0.875,
+            "ndcg_at_10": 0.7803230654187413
+          },
+          "medium": {
+            "recall_at_10": 1.0,
+            "mrr": 0.6547619047619048,
+            "ndcg_at_10": 0.7417908664594727
+          }
+        },
+        "question_type": {
+          "cross_document": {
+            "recall_at_10": 0.75,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.7451812540517538
+          },
+          "multi_hop": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "single_document": {
+            "recall_at_10": 1.0,
+            "mrr": 0.7122222222222222,
+            "ndcg_at_10": 0.7828973599118074
+          }
+        }
+      },
+      "details": [
+        {
+          "query_id": "q001",
+          "query": "O que diferencia engenharia de IA da engenharia de software tradicional?",
+          "category": "fundamentos",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0028",
+            "ai_engineering_0041",
+            "ai_engineering_0040",
+            "ai_engineering_0030",
+            "ai_engineering_0033",
+            "ai_engineering_0039",
+            "ai_engineering_0029",
+            "ai_engineering_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q002",
+          "query": "Por que uma resposta errada de um RAG pode ser um problema de retrieval, e não do modelo?",
+          "category": "rag",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0013",
+            "ai_engineering_0011",
+            "ai_engineering_0027",
+            "ai_engineering_0012",
+            "ai_engineering_0036",
+            "ai_engineering_0014",
+            "ai_engineering_0002",
+            "ai_engineering_0010",
+            "ai_engineering_0020",
+            "ai_engineering_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.1,
+          "ndcg_at_10": 0.2890648263178879
+        },
+        {
+          "query_id": "q003",
+          "query": "Como prompt injection pode aparecer em um pipeline RAG e qual mitigação básica é recomendada?",
+          "category": "seguranca",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0006"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0038",
+            "ai_engineering_0006",
+            "ai_engineering_0039",
+            "ai_engineering_0005",
+            "ai_engineering_0011",
+            "ai_engineering_0012",
+            "ai_engineering_0007",
+            "ai_engineering_0041",
+            "ai_engineering_0037",
+            "ai_engineering_0010"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q004",
+          "query": "Qual a relação entre overlap de chunks e o risco de duplicar informação no contexto?",
+          "category": "chunking",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0014"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0015",
+            "ai_engineering_0016",
+            "ai_engineering_0014",
+            "ai_engineering_0017",
+            "ai_engineering_0039",
+            "ai_engineering_0019",
+            "ai_engineering_0010",
+            "ai_engineering_0036",
+            "ai_engineering_0027",
+            "ai_engineering_0033"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5
+        },
+        {
+          "query_id": "q005",
+          "query": "O que MRR mede em uma avaliação de retrieval?",
+          "category": "avaliacao",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0025"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0025",
+            "ai_engineering_0026",
+            "ai_engineering_0027",
+            "ai_engineering_0019",
+            "ai_engineering_0020",
+            "ai_engineering_0021",
+            "ai_engineering_0017",
+            "ai_engineering_0023",
+            "ai_engineering_0024",
+            "ai_engineering_0011"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q006",
+          "query": "Como embeddings permitem recuperar um trecho que usa palavras diferentes das da pergunta?",
+          "category": "embeddings",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0008"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0008",
+            "ai_engineering_0017",
+            "ai_engineering_0007",
+            "ai_engineering_0010",
+            "ai_engineering_0011",
+            "ai_engineering_0014",
+            "ai_engineering_0021",
+            "ai_engineering_0009",
+            "ai_engineering_0020",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q007",
+          "query": "Quando faz sentido usar busca híbrida em vez de apenas busca densa?",
+          "category": "retrieval",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0020"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0017",
+            "ai_engineering_0010",
+            "ai_engineering_0018",
+            "ai_engineering_0020",
+            "ai_engineering_0015",
+            "ai_engineering_0021",
+            "ai_engineering_0019",
+            "ai_engineering_0008",
+            "ai_engineering_0022",
+            "ai_engineering_0016"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.25,
+          "ndcg_at_10": 0.43067655807339306
+        },
+        {
+          "query_id": "q008",
+          "query": "Por que um reranker pode melhorar MRR sem aumentar Recall@K?",
+          "category": "reranking",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0023"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0023",
+            "ai_engineering_0026",
+            "ai_engineering_0021",
+            "ai_engineering_0019",
+            "ai_engineering_0022",
+            "ai_engineering_0025",
+            "ai_engineering_0020",
+            "ai_engineering_0027",
+            "ai_engineering_0018",
+            "ai_engineering_0014"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q009",
+          "query": "Que experiência profissional o perfil descreve na Inova Soluções Educacionais?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "pedro_0002",
+            "pedro_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q010",
+          "query": "Quais tecnologias de orquestração multiagente aparecem no perfil profissional?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "pedro_0002",
+            "pedro_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q011",
+          "query": "Quais ferramentas de banco vetorial e testes são citadas no perfil?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0002"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "pedro_0002",
+            "pedro_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q012",
+          "query": "Como o Cast Review organiza as diferentes dimensões de uma revisão de pull request?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0001",
+            "projects_0002",
+            "projects_0003",
+            "projects_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q013",
+          "query": "Como a arquitetura planejada do Cast Review separa integração com GitHub e execução dos agentes?",
+          "category": "projetos_pessoais",
+          "difficulty": "hard",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0001",
+            "projects_0003",
+            "projects_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q014",
+          "query": "Que partes do fluxo de desenvolvimento o Cast Code automatiza e com quais plataformas se integra?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0002"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0003",
+            "projects_0001",
+            "projects_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q015",
+          "query": "Que recursos de observabilidade o Tracecast oferece para investigar execuções de agentes?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0003",
+            "projects_0001",
+            "projects_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q016",
+          "query": "Como habilidades profissionais listadas no perfil aparecem na arquitetura proposta para o Cast Review?",
+          "category": "carreira_projetos",
+          "difficulty": "hard",
+          "question_type": "cross_document",
+          "expected_document_ids": [
+            "pedro",
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001",
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0001",
+            "projects_0003",
+            "projects_0002",
+            "pedro_0001",
+            "pedro_0002",
+            "projects_0004",
+            "pedro_0003"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 0.8772153153380493
+        },
+        {
+          "query_id": "q017",
+          "query": "Como a recomendação de avaliar durante o desenvolvimento se relaciona à proposta do Tracecast?",
+          "category": "avaliacao_observabilidade",
+          "difficulty": "hard",
+          "question_type": "cross_document",
+          "expected_document_ids": [
+            "ai_engineering",
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0001",
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0003",
+            "ai_engineering_0032",
+            "projects_0002",
+            "ai_engineering_0033",
+            "ai_engineering_0027",
+            "ai_engineering_0037",
+            "ai_engineering_0034",
+            "projects_0001",
+            "ai_engineering_0028",
+            "ai_engineering_0002"
+          ],
+          "recall_at_10": 0.5,
+          "mrr": 1.0,
+          "ndcg_at_10": 0.6131471927654584
+        },
+        {
+          "query_id": "q018",
+          "query": "Como o Cast Code e o Cast Skills podem reduzir trabalho repetitivo e apoiar o desenvolvimento assistido por IA?",
+          "category": "projetos_pessoais",
+          "difficulty": "hard",
+          "question_type": "multi_hop",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0002",
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0003",
+            "projects_0002",
+            "projects_0001",
+            "projects_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        }
+      ],
+      "configuration_cost_usd": 0.0
+    },
+    "graph": {
+      "metrics": {
+        "recall_at_10": 0.8888888888888888,
+        "mrr": 0.7268518518518517,
+        "ndcg_at_10": 0.7510117069155422
+      },
+      "slices": {
+        "category": {
+          "avaliacao": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "avaliacao_observabilidade": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.8175295903539445
+          },
+          "carreira": {
+            "recall_at_10": 0.6666666666666666,
+            "mrr": 0.6666666666666666,
+            "ndcg_at_10": 0.6666666666666666
+          },
+          "carreira_projetos": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.8772153153380493
+          },
+          "chunking": {
+            "recall_at_10": 1.0,
+            "mrr": 0.3333333333333333,
+            "ndcg_at_10": 0.5
+          },
+          "embeddings": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "fundamentos": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "projetos_pessoais": {
+            "recall_at_10": 1.0,
+            "mrr": 0.8,
+            "ndcg_at_10": 0.8523719014285831
+          },
+          "rag": {
+            "recall_at_10": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_10": 0.0
+          },
+          "reranking": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "retrieval": {
+            "recall_at_10": 1.0,
+            "mrr": 0.25,
+            "ndcg_at_10": 0.43067655807339306
+          },
+          "seguranca": {
+            "recall_at_10": 1.0,
+            "mrr": 0.5,
+            "ndcg_at_10": 0.6309297535714575
+          }
+        },
+        "difficulty": {
+          "easy": {
+            "recall_at_10": 0.7142857142857143,
+            "mrr": 0.7142857142857143,
+            "ndcg_at_10": 0.7142857142857143
+          },
+          "hard": {
+            "recall_at_10": 1.0,
+            "mrr": 0.875,
+            "ndcg_at_10": 0.8314186648158628
+          },
+          "medium": {
+            "recall_at_10": 1.0,
+            "mrr": 0.6547619047619048,
+            "ndcg_at_10": 0.7417908664594727
+          }
+        },
+        "question_type": {
+          "cross_document": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 0.8473724528459969
+          },
+          "multi_hop": {
+            "recall_at_10": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          },
+          "single_document": {
+            "recall_at_10": 0.8666666666666667,
+            "mrr": 0.6722222222222222,
+            "ndcg_at_10": 0.7215643879191844
+          }
+        }
+      },
+      "details": [
+        {
+          "query_id": "q001",
+          "query": "O que diferencia engenharia de IA da engenharia de software tradicional?",
+          "category": "fundamentos",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0001",
+            "pedro_0001",
+            "pedro_0002",
+            "ai_engineering_0002",
+            "ai_engineering_0028",
+            "ai_engineering_0041",
+            "ai_engineering_0003",
+            "ai_engineering_0004",
+            "ai_engineering_0005",
+            "ai_engineering_0006"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q002",
+          "query": "Por que uma resposta errada de um RAG pode ser um problema de retrieval, e não do modelo?",
+          "category": "rag",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0013",
+            "ai_engineering_0011",
+            "ai_engineering_0027",
+            "ai_engineering_0012",
+            "ai_engineering_0036",
+            "ai_engineering_0014",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0004",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0
+        },
+        {
+          "query_id": "q003",
+          "query": "Como prompt injection pode aparecer em um pipeline RAG e qual mitigação básica é recomendada?",
+          "category": "seguranca",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0006"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0038",
+            "ai_engineering_0006",
+            "ai_engineering_0039",
+            "ai_engineering_0005",
+            "ai_engineering_0011",
+            "ai_engineering_0012",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0007"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q004",
+          "query": "Qual a relação entre overlap de chunks e o risco de duplicar informação no contexto?",
+          "category": "chunking",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0014"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0015",
+            "ai_engineering_0016",
+            "ai_engineering_0014",
+            "ai_engineering_0017",
+            "ai_engineering_0039",
+            "ai_engineering_0019",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg_at_10": 0.5
+        },
+        {
+          "query_id": "q005",
+          "query": "O que MRR mede em uma avaliação de retrieval?",
+          "category": "avaliacao",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0025"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0025",
+            "ai_engineering_0026",
+            "ai_engineering_0027",
+            "ai_engineering_0019",
+            "ai_engineering_0020",
+            "ai_engineering_0021",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q006",
+          "query": "Como embeddings permitem recuperar um trecho que usa palavras diferentes das da pergunta?",
+          "category": "embeddings",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0008"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0008",
+            "ai_engineering_0017",
+            "ai_engineering_0007",
+            "ai_engineering_0010",
+            "ai_engineering_0011",
+            "ai_engineering_0014",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q007",
+          "query": "Quando faz sentido usar busca híbrida em vez de apenas busca densa?",
+          "category": "retrieval",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0020"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0017",
+            "ai_engineering_0010",
+            "ai_engineering_0018",
+            "ai_engineering_0020",
+            "ai_engineering_0015",
+            "ai_engineering_0021",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.25,
+          "ndcg_at_10": 0.43067655807339306
+        },
+        {
+          "query_id": "q008",
+          "query": "Por que um reranker pode melhorar MRR sem aumentar Recall@K?",
+          "category": "reranking",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "ai_engineering"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0023"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0023",
+            "ai_engineering_0026",
+            "ai_engineering_0021",
+            "ai_engineering_0019",
+            "ai_engineering_0022",
+            "ai_engineering_0025",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q009",
+          "query": "Que experiência profissional o perfil descreve na Inova Soluções Educacionais?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "pedro_0002",
+            "projects_0003",
+            "ai_engineering_0001",
+            "projects_0001",
+            "ai_engineering_0030",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004",
+            "ai_engineering_0006"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q010",
+          "query": "Quais tecnologias de orquestração multiagente aparecem no perfil profissional?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "pedro_0001",
+            "ai_engineering_0030",
+            "pedro_0002",
+            "ai_engineering_0031",
+            "projects_0003",
+            "ai_engineering_0029",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q011",
+          "query": "Quais ferramentas de banco vetorial e testes são citadas no perfil?",
+          "category": "carreira",
+          "difficulty": "easy",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "pedro"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0002"
+          ],
+          "retrieved_chunk_ids": [
+            "ai_engineering_0039",
+            "projects_0003",
+            "ai_engineering_0010",
+            "ai_engineering_0037",
+            "ai_engineering_0002",
+            "ai_engineering_0027",
+            "ai_engineering_0001",
+            "ai_engineering_0003",
+            "ai_engineering_0004",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_10": 0.0
+        },
+        {
+          "query_id": "q012",
+          "query": "Como o Cast Review organiza as diferentes dimensões de uma revisão de pull request?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0001",
+            "projects_0002",
+            "projects_0003",
+            "ai_engineering_0037",
+            "ai_engineering_0019",
+            "ai_engineering_0016",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q013",
+          "query": "Como a arquitetura planejada do Cast Review separa integração com GitHub e execução dos agentes?",
+          "category": "projetos_pessoais",
+          "difficulty": "hard",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0001",
+            "ai_engineering_0028",
+            "ai_engineering_0030",
+            "projects_0003",
+            "ai_engineering_0029",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q014",
+          "query": "Que partes do fluxo de desenvolvimento o Cast Code automatiza e com quais plataformas se integra?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0002"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0003",
+            "projects_0001",
+            "pedro_0001",
+            "ai_engineering_0037",
+            "pedro_0002",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        },
+        {
+          "query_id": "q015",
+          "query": "Que recursos de observabilidade o Tracecast oferece para investigar execuções de agentes?",
+          "category": "projetos_pessoais",
+          "difficulty": "medium",
+          "question_type": "single_document",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0002",
+            "projects_0003",
+            "ai_engineering_0031",
+            "ai_engineering_0032",
+            "ai_engineering_0041",
+            "ai_engineering_0028",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 0.5,
+          "ndcg_at_10": 0.6309297535714575
+        },
+        {
+          "query_id": "q016",
+          "query": "Como habilidades profissionais listadas no perfil aparecem na arquitetura proposta para o Cast Review?",
+          "category": "carreira_projetos",
+          "difficulty": "hard",
+          "question_type": "cross_document",
+          "expected_document_ids": [
+            "pedro",
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "pedro_0001",
+            "projects_0001"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0001",
+            "projects_0003",
+            "projects_0002",
+            "pedro_0001",
+            "pedro_0002",
+            "ai_engineering_0037",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 0.8772153153380493
+        },
+        {
+          "query_id": "q017",
+          "query": "Como a recomendação de avaliar durante o desenvolvimento se relaciona à proposta do Tracecast?",
+          "category": "avaliacao_observabilidade",
+          "difficulty": "hard",
+          "question_type": "cross_document",
+          "expected_document_ids": [
+            "ai_engineering",
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "ai_engineering_0001",
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0003",
+            "ai_engineering_0032",
+            "projects_0002",
+            "ai_engineering_0033",
+            "ai_engineering_0027",
+            "ai_engineering_0037",
+            "ai_engineering_0001",
+            "ai_engineering_0003",
+            "ai_engineering_0004",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 0.8175295903539445
+        },
+        {
+          "query_id": "q018",
+          "query": "Como o Cast Code e o Cast Skills podem reduzir trabalho repetitivo e apoiar o desenvolvimento assistido por IA?",
+          "category": "projetos_pessoais",
+          "difficulty": "hard",
+          "question_type": "multi_hop",
+          "expected_document_ids": [
+            "projects"
+          ],
+          "relevant_chunk_ids": [
+            "projects_0002",
+            "projects_0003"
+          ],
+          "retrieved_chunk_ids": [
+            "projects_0003",
+            "projects_0002",
+            "projects_0001",
+            "ai_engineering_0028",
+            "pedro_0001",
+            "ai_engineering_0001",
+            "ai_engineering_0002",
+            "ai_engineering_0003",
+            "ai_engineering_0004",
+            "ai_engineering_0005"
+          ],
+          "recall_at_10": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0
+        }
+      ],
+      "configuration_cost_usd": 0.0
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "version": "multidoc_v1",
+  "benchmark": "groundtruth_multidoc",
+  "dataset": "datasets/golden_set_multidoc.jsonl",
+  "dataset_size": 18,
+  "index_fingerprint": "43952e35b20ba02736f7cff812693c8e0217bd5cc380de8912701605665689f2:word200-overlap40:text-embedding-3-small",
+  "configuration": "flat",
+  "metrics": {
+    "recall_at_10": 0.9166666666666666,
+    "mrr": 0.7324074074074074,
+    "ndcg_at_10": 0.7557162862893978
+  },
+  "recall_gate_max_drop": 0.01,
+  "notes": "First approved multi-document run. Flat/dense is the unhinted retrieval reference; filtered uses expected_document_ids and is not eligible as the neutral baseline."
+}

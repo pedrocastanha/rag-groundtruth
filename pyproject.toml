@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "groundtruth-ship-gate"
+version = "0.1.0"
+description = "RAG retrieval and agent evaluation harness"
+requires-python = ">=3.11"
+dependencies = ["openai>=1.60", "PyYAML>=6.0", "python-dotenv>=1.0"]
+
+[project.optional-dependencies]
+evaluation = ["ragas==0.3.9", "langchain-community>=0.3,<0.4"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+groundtruth = "groundtruth.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

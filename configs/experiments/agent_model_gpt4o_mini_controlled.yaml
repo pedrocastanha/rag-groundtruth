@@ -1,5 +1,5 @@
-name: agent_controlled
-stage: agent_controlled
+name: agent_model_gpt4o_mini_controlled
+stage: agent_model_comparison
 dataset: datasets/golden_set_multidoc.jsonl
 chunking:
   size_words: 200
@@ -19,7 +19,7 @@ corpus:
       path: docs/sources/projects.md
 agent:
   mode: controlled
-  model: gpt-4.1-mini
+  model: gpt-4o-mini
   prompt_version: shared_v1
   max_tool_calls: 5
   max_steps: 8
@@ -35,26 +35,11 @@ question_slices:
   - single_document
   - cross_document
   - multi_hop
-metrics:
-  - tool_calls_per_answer
-  - tool_calls_by_name
-  - unique_tools_per_answer
-  - failed_tool_calls
-  - repeated_tool_calls
-  - cost_usd_per_answer
-  - latency_ms_per_answer
-  - faithfulness
-  - answer_relevancy
 cache:
   enabled: true
   root: cache
   namespaces:
     - text_embeddings
-    - reranker
     - knowledge_graph
     - agent_runs
-  key_fields:
-    embeddings: [text, embedding_model]
-    reranker: [query, candidate_ids, k, model, prompt_version]
-    knowledge_graph: [corpus_fingerprint, chunking_version, extractor_model, prompt_version]
-    agent_runs: [query_id, backend, index_fingerprint, model, prompt_version, tool_schema_version, max_tool_calls, max_steps]
+

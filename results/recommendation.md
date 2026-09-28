@@ -2,9 +2,9 @@
 
 ## Decisão
 
-Recomendamos **Hybrid chunk200** como configuração padrão para produção, com Dense chunk200 como alternativa conservadora e o reranker como opção quando a qualidade do ranking justificar o custo e a latência adicionais.
+Recomendamos **Dense + GPT reranker, chunk200** como configuração de qualidade-first para produção. Ele tem o melhor MRR e nDCG, e seu Recall@10 de 0.99 cai exatamente 1 ponto percentual em relação ao baseline Dense chunk200 — dentro do limite permitido pelo gate. Hybrid chunk200 é a alternativa com melhor equilíbrio operacional conhecido: melhora o ranking sem adicionar uma chamada de LLM ao retrieval. Dense chunk200 continua sendo a opção de máxima cobertura e menor complexidade.
 
-Hybrid chunk200 mantém Recall@10 em 0.99, exatamente 1 ponto percentual abaixo do baseline Dense chunk200. Como o gate permite uma queda de até 1 ponto percentual, essa configuração passa no critério atual. Ao mesmo tempo, melhora MRR e nDCG em relação ao baseline, sem adicionar uma chamada de LLM ao fluxo de retrieval.
+O reranker mantém Recall@10 em 0.99, exatamente 1 ponto percentual abaixo do baseline Dense chunk200. Como o gate permite uma queda de até 1 ponto percentual, essa configuração passa no critério atual. Ao mesmo tempo, melhora MRR e nDCG em relação ao baseline e entrega o melhor ranking medido. Essa escolha prioriza qualidade de ordenação; custo e latência do reranker ainda precisam ser medidos.
 
 ## Resultados de retrieval
 
@@ -19,18 +19,18 @@ Hybrid chunk200 mantém Recall@10 em 0.99, exatamente 1 ponto percentual abaixo 
 
 - **Dense chunk100:** tem resultados razoáveis de ranking, mas o menor Recall@10 entre as configurações avaliadas. Não é a recomendação padrão diante das alternativas medidas.
 - **Dense chunk200:** alcança o maior Recall@10 e usa o fluxo mais simples. É a escolha conservadora quando evitar perda de cobertura é mais importante que posicionar os trechos relevantes no topo.
-- **Hybrid chunk200:** perde 1 ponto percentual de Recall em relação ao baseline, dentro do limite do gate, e melhora MRR e nDCG. É o melhor equilíbrio medido entre cobertura, ordem dos resultados e complexidade, sem reranking por LLM.
-- **Dense + GPT reranker:** obtém o melhor MRR e nDCG, mantendo Recall@10 em 0.99. A chamada adicional de `gpt-4.1-mini` traz custo, latência e dependência operacional que ainda não foram quantificados neste projeto.
+- **Hybrid chunk200:** perde 1 ponto percentual de Recall em relação ao baseline, dentro do limite do gate, e melhora MRR e nDCG sem reranking por LLM. É a alternativa quando se quer evitar uma chamada de modelo no retrieval.
+- **Dense + GPT reranker:** obtém o melhor MRR e nDCG, mantendo Recall@10 em 0.99. É a recomendação de qualidade-first; a chamada adicional de `gpt-4.1-mini` traz custo, latência e dependência operacional que ainda não foram quantificados neste projeto.
 
 Custo e latência não foram medidos nos experimentos. Portanto, a comparação desses fatores é qualitativa: o reranker adiciona uma etapa de LLM; os resultados disponíveis não permitem estimar o impacto em dinheiro ou tempo de resposta.
 
 ## Uso recomendado por prioridade
 
-- Escolha **Hybrid chunk200** como padrão quando o objetivo for equilibrar recall e qualidade de ranking.
+- Escolha **Dense + GPT reranker** quando a qualidade de ranking for prioritária e o produto puder aceitar a chamada adicional de modelo.
+- Escolha **Hybrid chunk200** quando quiser melhorar o ranking sem uma chamada de LLM adicional.
 - Escolha **Dense chunk200** quando Recall máximo e simplicidade forem os requisitos prioritários.
-- Considere **Dense + GPT reranker** quando MRR e nDCG forem prioritários e medições de custo e latência confirmarem que o ganho atende aos limites do produto.
 
-A configuração reranked tem Recall@10 de 0.99 contra 1.00 do baseline. A queda é exatamente 1 ponto percentual e, pela regra implementada, passa no gate. Isso não significa que não houve queda; significa que ela está no limite permitido.
+A configuração reranked tem Recall@10 de 0.99 contra 1.00 do baseline. A queda é exatamente 1 ponto percentual e, pela regra implementada, passa no gate. Isso não significa que não houve queda; significa que ela está no limite permitido. Essa decisão prioriza as melhorias de MRR e nDCG, conforme o critério de qualidade do projeto.
 
 ## Generation evaluation
 

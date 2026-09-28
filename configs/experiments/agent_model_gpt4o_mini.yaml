@@ -1,5 +1,5 @@
-name: agent_tuned
-stage: agent_tuned
+name: agent_model_gpt4o_mini
+stage: agent_model_comparison
 dataset: datasets/golden_set_multidoc.jsonl
 chunking:
   size_words: 200
@@ -19,12 +19,16 @@ corpus:
       path: docs/sources/projects.md
 agent:
   mode: tuned
-  model: gpt-4.1-mini
+  model: gpt-4o-mini
   max_tool_calls: 5
   max_steps: 8
 generation_eval:
   model: gpt-4.1-mini
   query_ids: [q001, q009, q016, q018]
+retrieval_backends:
+  - flat
+  - filtered
+  - graph
 strategies:
   flat:
     prompt_version: flat_v1
@@ -39,30 +43,13 @@ strategies:
     tools:
       - graph_search
       - fetch_source_chunks
-question_slices:
-  - single_document
-  - cross_document
-  - multi_hop
-metrics:
-  - tool_calls_per_answer
-  - tool_calls_by_name
-  - unique_tools_per_answer
-  - failed_tool_calls
-  - repeated_tool_calls
-  - cost_usd_per_answer
-  - latency_ms_per_answer
-  - faithfulness
-  - answer_relevancy
+query_cache_scope: agent_tuned:filtered
 cache:
   enabled: true
   root: cache
+  agent_run_namespace: agent_tuned
   namespaces:
     - text_embeddings
     - reranker
     - knowledge_graph
     - agent_runs
-  key_fields:
-    embeddings: [text, embedding_model]
-    reranker: [query, candidate_ids, k, model, prompt_version]
-    knowledge_graph: [corpus_fingerprint, chunking_version, extractor_model, prompt_version]
-    agent_runs: [query_id, backend, index_fingerprint, model, prompt_version, tool_schema_version, max_tool_calls, max_steps]

@@ -1,11 +1,22 @@
 name: retrieval_controlled
 stage: retrieval_only
-dataset: golden_set.jsonl
+dataset: datasets/golden_set_multidoc.jsonl
+chunking:
+  size_words: 200
+  overlap_words: 40
+embedding_model: text-embedding-3-small
+top_k: 10
 corpus:
   sources:
-    - docs/sources/ai_engineering.md
-    - docs/sources/pedro_castanheira.md
-    - docs/sources/projects.md
+    - id: ai_engineering
+      title: Cast — AI Engineering Handbook
+      path: docs/sources/ai_engineering.md
+    - id: pedro
+      title: Pedro Castanheira Costa
+      path: docs/sources/pedro_castanheira.md
+    - id: projects
+      title: Projetos e aplicações de IA
+      path: docs/sources/projects.md
 question_slices:
   - single_document
   - cross_document
@@ -24,6 +35,7 @@ cache:
   namespaces:
     - text_embeddings
     - knowledge_graph
+    - corpus
   key_fields:
     embeddings: [text, embedding_model]
     knowledge_graph: [corpus_fingerprint, chunking_version, extractor_model, prompt_version]

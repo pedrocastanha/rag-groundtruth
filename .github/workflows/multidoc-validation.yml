@@ -1,0 +1,111 @@
+name: Multi-document harness validation
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  offline-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and offline test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Run offline tests
+        run: python -m pytest tests -q
+      - name: Check dataset evidence and review statuses
+        run: python -m groundtruth.cli validate-dataset --config configs/experiments/retrieval_controlled.yaml
+
+  full-agent-comparison:
+    needs: offline-validation
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install evaluation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,evaluation]"
+      - name: Restore experiment cache
+        id: experiment-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: cache/
+          key: groundtruth-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('pyproject.toml', 'configs/experiments/*.yaml', 'configs/model_pricing.yaml', 'baselines/multidoc_v1.json', 'datasets/*.jsonl', 'docs/sources/*.md', 'src/groundtruth/**/*.py') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            groundtruth-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('pyproject.toml', 'configs/experiments/*.yaml', 'configs/model_pricing.yaml', 'baselines/multidoc_v1.json', 'datasets/*.jsonl', 'docs/sources/*.md', 'src/groundtruth/**/*.py') }}-
+      - name: Remove stale comparison outputs
+        run: |
+          mkdir -p results/multidoc
+          rm -f results/multidoc/retrieval_controlled.json \
+            results/multidoc/agent_controlled.json \
+            results/multidoc/agent_model_gpt4o_mini_controlled.json \
+            results/multidoc/agent_model_gpt6_luna_controlled.json \
+            results/multidoc/agent_tuned.json \
+            results/multidoc/agent_model_gpt4o_mini.json \
+            results/multidoc/agent_model_gpt6_luna.json \
+            results/multidoc/agent_matrix.json \
+            results/multidoc/agent_matrix.md
+      - name: Require API secret for full comparison
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "OPENAI_API_KEY is required for the full agent comparison."
+            exit 1
+          fi
+      - name: Run retrieval baseline comparison and all 18 agent cells
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -u
+          failed=0
+          python -m groundtruth.cli evaluate-retrieval \
+            --config configs/experiments/retrieval_controlled.yaml || failed=1
+
+          for config in \
+            agent_controlled.yaml \
+            agent_model_gpt4o_mini_controlled.yaml \
+            agent_model_gpt6_luna_controlled.yaml \
+            agent_tuned.yaml \
+            agent_model_gpt4o_mini.yaml \
+            agent_model_gpt6_luna.yaml; do
+            python -m groundtruth.cli evaluate-agents \
+              --config "configs/experiments/$config" || failed=1
+          done
+
+          python -m groundtruth.cli compare-agents \
+            --results-dir results/multidoc \
+            --baseline baselines/multidoc_v1.json \
+            --expected-generation-samples 4 \
+            --output-json results/multidoc/agent_matrix.json \
+            --output-markdown results/multidoc/agent_matrix.md || failed=1
+          exit "$failed"
+      - name: Save experiment cache
+        if: always() && steps.experiment-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: cache/
+          key: groundtruth-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('pyproject.toml', 'configs/experiments/*.yaml', 'configs/model_pricing.yaml', 'baselines/multidoc_v1.json', 'datasets/*.jsonl', 'docs/sources/*.md', 'src/groundtruth/**/*.py') }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Upload complete comparison report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: groundtruth-comparison-${{ github.sha }}
+          path: |
+            results/multidoc/*.json
+            results/multidoc/agent_matrix.md
+          if-no-files-found: warn
+          retention-days: 30
